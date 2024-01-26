@@ -1,0 +1,1 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[229],{7183:function(n,u,e){(window.__NEXT_P=window.__NEXT_P||[]).push(["/home",function(){return e(9270)}])},9270:function(n,u,e){"use strict";e.r(u);var _=e(5893);u.default=()=>(0,_.jsx)(_.Fragment,{children:"home!!"})}},function(n){n.O(0,[888,774,179],function(){return n(n.s=7183)}),_N_E=n.O()}]);
