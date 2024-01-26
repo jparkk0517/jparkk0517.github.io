@@ -3,7 +3,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 const envImageUnoptimize = isProduction ? false : true;
 
 const nextConfig = {
-  output: isProduction ? undefined : 'export',
+  output: !isProduction ? undefined : 'export',
   images: {
     unoptimized: envImageUnoptimize,
   },
