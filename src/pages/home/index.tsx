@@ -1,7 +1,8 @@
-import { useRef } from 'react';
+import Modal from '@/components/Modal';
+import { useRef, useState } from 'react';
 
 const Home = () => {
-  const modalRef = useRef<HTMLDialogElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <button className='btn btn-primary'>Hello daisyUI!</button>
@@ -9,25 +10,11 @@ const Home = () => {
       <button
         className='btn'
         onClick={() => {
-          if (!modalRef.current) return;
-          modalRef.current.showModal();
+          setIsOpen(true);
         }}>
         open modal
       </button>
-      <dialog id='my_modal_1' className='modal' ref={modalRef}>
-        <div className='modal-box'>
-          <h3 className='font-bold text-lg'>Hello!</h3>
-          <p className='py-4'>
-            Press ESC key or click the button below to close
-          </p>
-          <div className='modal-action'>
-            <form method='dialog'>
-              {/* if there is a button in form, it will close the modal */}
-              <button className='btn'>Close</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} />
     </>
   );
 };
