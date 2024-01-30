@@ -4,10 +4,10 @@
   "private": true,
   "homepage": "https://jparkk0517.github.io/",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 8080",
     "build": "next build",
     "deploy": "next build && touch out/.nojekyll && gh-pages -d out --dotfiles",
-    "start": "next start",
+    "start": "next start -p 8080",
     "lint": "next lint"
   },
   "dependencies": {

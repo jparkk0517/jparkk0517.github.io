@@ -1,5 +1,5 @@
-import Modal from '@/components/Modal';
-import { useRef, useState } from 'react';
+import Modal from '@/components/common/Modal';
+import { useState } from 'react';
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);

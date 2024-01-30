@@ -6,13 +6,13 @@ interface IModal {
   onConfirm?: () => void;
   outsideClickClose?: boolean;
   title?: ReactNode;
-  content?: ReactNode;
+  children?: ReactNode;
 }
 
 const Modal = ({
   isOpen,
   title,
-  content,
+  children,
   onClose,
   onConfirm,
   outsideClickClose = true,
@@ -42,7 +42,7 @@ const Modal = ({
       )}
       <div className='modal-box'>
         <h3 className='font-bold text-lg'>{title}</h3>
-        <p className='py-4'>{content}</p>
+        <p className='py-4'>{children}</p>
         <div className='modal-action'>
           {/* <form method='dialog'> */}
           {onConfirm && (
