@@ -15,12 +15,14 @@ interface ICardList {
   items?: IItem[];
   page?: IPage;
   onChangePage?: (page: number) => void;
+  onSelect?: (item: IItem) => void;
 }
 
 const CardList = ({
   items = [],
   page = { pageLen: 10 },
   onChangePage,
+  onSelect,
 }: ICardList) => {
   const [cursor, setCursor] = useState(0);
   const lastPageCount = Math.ceil(items.length / page.pageLen);
@@ -30,14 +32,19 @@ const CardList = ({
   );
 
   useEffect(() => {
-    onChangePage && onChangePage(cursor)
-  }, [onChangePage, cursor])
+    onChangePage && onChangePage(cursor);
+  }, [onChangePage, cursor]);
   return (
     <div>
       <ul className='list-none p-0'>
         {displayedItems.map((item, idx) => (
           <li key={idx.toString()} className='inline-block'>
-            <Card {...item} />
+            <Card
+              {...item}
+              onClick={() => {
+                onSelect && onSelect(item);
+              }}
+            />
           </li>
         ))}
       </ul>
