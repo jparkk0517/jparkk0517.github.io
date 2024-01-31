@@ -4,10 +4,11 @@ interface ICard {
   title: ReactNode;
   children: ReactNode;
   footer: ReactNode;
+  tags?: string[];
   onClick?: () => void;
 }
 
-const Card = ({ title, children, footer, onClick }: ICard) => {
+const Card = ({ title, children, footer, onClick, tags = [] }: ICard) => {
   return (
     <div
       onClick={onClick}
@@ -15,7 +16,13 @@ const Card = ({ title, children, footer, onClick }: ICard) => {
       <div className='card-body'>
         <h2 className='card-title'>{title}</h2>
         {children}
-        <div className='card-actions justify-end'>{footer}</div>
+        <div className='card-actions justify-end'>
+          {tags.map((tag) => (
+            <div className='badge badge-outline' key={tag}>
+              {tag}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

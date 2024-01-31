@@ -1,3 +1,4 @@
+import Menu from '@/components/Menu';
 import { ReactNode } from 'react';
 
 interface IDropdown {
@@ -9,11 +10,14 @@ const Dropdown = ({ trigger, items = [] }: IDropdown) => {
   return (
     <div className='dropdown'>
       <summary className='m-1 btn'>{trigger}</summary>
-      <ul className='dropdown-content z-[1] menu p-2 shadow bg-base-300 rounded-box w-52'>
+      <div className='dropdown-content'>
+        <Menu></Menu>
+      </div>
+      {/* <ul className='dropdown-content z-[1] menu p-2 shadow bg-base-300 rounded-box w-52'>
         {items.map((item, idx) => (
           <li key={idx.toString()}>{item}</li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 };

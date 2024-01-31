@@ -2,7 +2,11 @@ import { ReactNode } from 'react';
 
 const Main = ({ children }: { children?: ReactNode }) => {
   return (
-    <main className='w-screen p-4 min-h-full align-baseline'>{children}</main>
+    <main
+      className='w-screen p-4 align-baseline overflow-y-scroll'
+      style={{ height: '88vh' }}>
+      {children}
+    </main>
   );
 };
 

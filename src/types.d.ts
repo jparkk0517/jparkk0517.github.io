@@ -5,6 +5,7 @@ interface IPost {
     title: string;
     desc: string;
     date: string;
+    tags: string[];
   };
   route: string;
 }

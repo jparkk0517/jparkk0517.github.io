@@ -9,6 +9,8 @@ interface IItem {
   title: ReactNode;
   children: ReactNode;
   footer: ReactNode;
+  onClick: () => void;
+  tags?: string[];
 }
 
 interface ICardList {
@@ -36,15 +38,10 @@ const CardList = ({
   }, [onChangePage, cursor]);
   return (
     <div>
-      <ul className='list-none p-0'>
+      <ul className='list-none p-0' style={{ display: 'ruby' }}>
         {displayedItems.map((item, idx) => (
           <li key={idx.toString()} className='inline-block'>
-            <Card
-              {...item}
-              onClick={() => {
-                onSelect && onSelect(item);
-              }}
-            />
+            <Card {...item} key={idx.toString()} />
           </li>
         ))}
       </ul>
