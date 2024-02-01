@@ -12,7 +12,7 @@ const Card = ({ title, children, footer, onClick, tags = [] }: ICard) => {
   return (
     <div
       onClick={onClick}
-      className='card m-4 w-96 bg-base-100 hover:bg-base-200  hover:scale-105 transform transition-transform duration-300 border border-slate-600 cursor-pointer'>
+      className='card m-4 bg-base-100 hover:bg-base-200  hover:scale-105 transform transition-transform duration-300 border border-slate-600 cursor-pointer'>
       <div className='card-body'>
         <h2 className='card-title'>{title}</h2>
         {children}
