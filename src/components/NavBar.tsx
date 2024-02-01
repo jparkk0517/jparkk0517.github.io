@@ -1,16 +1,10 @@
 import useSearchKeyword from '@/store/searchStore';
 import { useRouter } from 'next/router';
-import { useEffect, useRef, useState } from 'react';
-import { debounce } from 'lodash-es';
+import FilterSearch from '@/components/common/FilterSearch';
 
 const NavBar = () => {
-  const searchKeywordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const { setSearchKeyword, clearSearchKeyword } = useSearchKeyword();
-
-  const handleSearch = debounce((keyword: string) => {
-    setSearchKeyword(keyword);
-  }, 500);
+  const { setSearchKeyword } = useSearchKeyword();
 
   return (
     <div className='navbar bg-base-100 sticky top-0 z-10'>
@@ -25,7 +19,26 @@ const NavBar = () => {
       </div>
       <div className='flex-none gap-2'>
         <div className='form-control'>
-          <input
+          <FilterSearch
+            onSearch={({ searchKeyword }) => {
+              setSearchKeyword(searchKeyword);
+            }}
+            filters={[
+              {
+                key: 'tag',
+                label: '키워드',
+              },
+              {
+                key: 'title',
+                label: '제목',
+              },
+              {
+                key: 'content',
+                label: '내용',
+              },
+            ]}
+          />
+          {/* <input
             type='text'
             placeholder='Search'
             className='input input-bordered w-24 md:w-auto'
@@ -33,7 +46,7 @@ const NavBar = () => {
             onChange={(e) => {
               handleSearch(e.target.value);
             }}
-          />
+          /> */}
         </div>
         {/* <div className='dropdown dropdown-end'>
           <div
