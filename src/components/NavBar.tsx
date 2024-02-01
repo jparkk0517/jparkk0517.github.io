@@ -23,20 +23,20 @@ const NavBar = () => {
             onSearch={({ searchKeyword }) => {
               setSearchKeyword(searchKeyword);
             }}
-            filters={[
-              {
-                key: 'tag',
-                label: '키워드',
-              },
-              {
-                key: 'title',
-                label: '제목',
-              },
-              {
-                key: 'content',
-                label: '내용',
-              },
-            ]}
+            // filters={[
+            //   {
+            //     key: 'tag',
+            //     label: '키워드',
+            //   },
+            //   {
+            //     key: 'title',
+            //     label: '제목',
+            //   },
+            //   {
+            //     key: 'content',
+            //     label: '내용',
+            //   },
+            // ]}
           />
           {/* <input
             type='text'

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 interface IFilterSearch {
-  filters: Array<{
+  filters?: Array<{
     key: string;
     label: string;
   }>;
@@ -41,27 +41,33 @@ export default function FilterSearch({
       <div>
         <div>
           <input
-            className='input input-bordered join-item'
+            className='input input-sm input-bordered join-item max-w-[30vw]'
             placeholder={placeholder}
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
-            style={{
-              maxWidth: '30vw',
+            onKeyUp={(e) => {
+              if (e.key === 'Enter')
+                onSearch({
+                  selectedFilter,
+                  searchKeyword,
+                });
             }}
           />
         </div>
       </div>
-      <select
-        className='select select-bordered join-item'
-        defaultValue={selectedFilter}>
-        {filters.map((filter) => (
-          <option key={filter.key}>{filter.label}</option>
-        ))}
-      </select>
+      {filters && (
+        <select
+          className='select select-bordered join-item'
+          defaultValue={selectedFilter}>
+          {filters.map((filter) => (
+            <option key={filter.key}>{filter.label}</option>
+          ))}
+        </select>
+      )}
       <div className='indicator'>
         {/* <span className='indicator-item badge badge-secondary'>new</span> */}
         <button
-          className='btn join-item'
+          className='btn join-item btn-sm'
           onClick={() => {
             onSearch({
               selectedFilter,

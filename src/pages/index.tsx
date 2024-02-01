@@ -19,8 +19,7 @@ export default function Home({ posts }: IPostsProps) {
         items={posts
           .filter(
             (post) =>
-              post.meta.title.includes(searchKeyword) ||
-              post.meta.tags.includes(searchKeyword)
+              post.meta.tags.includes(searchKeyword) || searchKeyword === ''
           )
           .map((post) => ({
             title: post.meta.title,
@@ -30,6 +29,7 @@ export default function Home({ posts }: IPostsProps) {
               router.push(`/posts/${post.route}`);
             },
             footer: <Button onClick={() => {}}>보러가기</Button>,
+            date: post.meta.date,
           }))}
       />
     </>

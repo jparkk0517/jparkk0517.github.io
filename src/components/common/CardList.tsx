@@ -9,6 +9,7 @@ interface IItem {
   title: ReactNode;
   children: ReactNode;
   footer: ReactNode;
+  date: ReactNode;
   onClick: () => void;
   tags?: string[];
 }
