@@ -16,9 +16,14 @@ export default function Post({ post }: { post: IPost }) {
   );
 }
 export async function getStaticPaths() {
+  const files = fs.readdirSync(path.join('posts'));
+
+  const posts = files
+    .filter((filename) => filename.endsWith('.mdx'))
+    .map((filename) => `/posts/${filename.replace('.mdx', '')}`);
   return {
-    paths: [],
-    fallback: 'blocking',
+    paths: posts,
+    fallback: false,
   };
 }
 
