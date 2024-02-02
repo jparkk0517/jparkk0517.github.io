@@ -59,7 +59,11 @@ export const getStaticProps = async () => {
         fileName,
         route: fileName,
       };
-    });
+    })
+    .sort(
+      ({ meta: { date: date1 } }, { meta: { date: date2 } }) =>
+        new Date(date2).getTime() - new Date(date1).getTime()
+    );
   return {
     props: {
       posts,
