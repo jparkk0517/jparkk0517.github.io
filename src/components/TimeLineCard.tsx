@@ -34,7 +34,7 @@ export default function TimeLineCard({
       </div>
       <div className={CLASS_NAMS[leftRight]}>
         <time className='font-mono italic'>{date}</time>
-        <div className='text-lg font-black'>{title}</div>
+        <div className='text-lg text-white'>{title}</div>
         {description}
       </div>
       <hr />

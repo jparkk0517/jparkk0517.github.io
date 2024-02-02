@@ -15,14 +15,14 @@ const Card = ({ title, children, date, onClick, tags = [] }: ICard) => {
   return (
     <div
       onClick={onClick}
-      className='card m-4 bg-base-100 hover:bg-base-200  hover:scale-105 transform transition-transform duration-300 border border-slate-600 cursor-pointer max-w-[80vw]'>
+      className='card m-4 bg-base-100 hover:bg-base-200  hover:scale-105 transform transition-transform duration-300 border border-slate-600 cursor-pointer max-w-[70vw]'>
       <div className='card-body'>
         <h2 className='card-title'>
           {title}
-          <div className='badge badge-primary'>{date}</div>
+          <div className='badge bg-white text-black'>{date}</div>
         </h2>
         <div
-          className='text-ellipsis max-w-[70vw] max-h-[10vh] overflow-hidden'
+          className='text-ellipsis max-w-[50vw] max-h-[10vh] overflow-hidden'
           style={{
             display: '-webkit-flex',
           }}>
@@ -33,7 +33,7 @@ const Card = ({ title, children, date, onClick, tags = [] }: ICard) => {
             <div
               className={`badge badge-outline ${
                 tag.includes(searchKeyword) && searchKeyword !== ''
-                  ? 'badge-primary'
+                  ? 'border-secondary text-secondary'
                   : ''
               }`}
               key={tag}>
