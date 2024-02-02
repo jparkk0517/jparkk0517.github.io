@@ -13,6 +13,10 @@ export default function TimeLineCard({
   description,
   leftRight = 'right',
 }: ITimeLineCard) {
+  const CLASS_NAMS = {
+    left: 'timeline-start md:text-end mb-10',
+    right: 'timeline-end md:text-start mb-10',
+  };
   return (
     <>
       <div className='timeline-middle'>
@@ -28,10 +32,7 @@ export default function TimeLineCard({
           />
         </svg>
       </div>
-      <div
-        className={`timeline-${
-          leftRight === 'left' ? 'start' : 'end'
-        } md:text-${leftRight === 'left' ? 'end' : ''} mb-10`}>
+      <div className={CLASS_NAMS[leftRight]}>
         <time className='font-mono italic'>{date}</time>
         <div className='text-lg font-black'>{title}</div>
         {description}

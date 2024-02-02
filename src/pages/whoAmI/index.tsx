@@ -112,7 +112,7 @@ export default function WhoAmI() {
       <li>
         <TimeLineCard
           date='2024.01'
-          leftRight='left'
+          leftRight='right'
           description={
             <>
               <p>
@@ -128,7 +128,8 @@ export default function WhoAmI() {
                 </a>
               </p>
               <p>
-                legacy 환경에 놓인 대규모 조직에서 Module-Federation이 없이 MFA를 도입하는 방법에 대한 방법 공유
+                legacy 환경에 놓인 대규모 조직에서 Module-Federation이 없이
+                MFA를 도입하는 방법에 대한 방법 공유
               </p>
             </>
           }
