@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import { markedHighlight } from 'marked-highlight';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css';
+import { MENUS } from '@/common/constants';
 
 const marked = new Marked(
   markedHighlight({
@@ -86,7 +87,7 @@ export default function Post({
                 prev ? '' : 'btn-disabled'
               }`}
               onClick={() => {
-                prev && route.push(`/posts/${prev.route}`);
+                prev && route.push(MENUS.POST(prev.route));
               }}>
               <svg
                 className='h-6 w-6 fill-current md:h-8 md:w-8'
@@ -110,7 +111,7 @@ export default function Post({
                 next ? '' : 'btn-disabled'
               }`}
               onClick={() => {
-                next && route.push(`/posts/${next.route}`);
+                next && route.push(MENUS.POST(next.route));
               }}>
               <div className='flex flex-col items-end'>
                 <span className='text-neutral-content/50 hidden text-xs font-normal md:block'>

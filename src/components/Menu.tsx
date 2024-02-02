@@ -1,6 +1,8 @@
-const MENU = [];
+import { MENUS } from '@/common/constants';
+import { useRouter } from 'next/router';
 
 export default function Menu() {
+  const router = useRouter();
   return (
     <div className='drawer absolute left-5 z-30 w-[90vw] bottom-[10vh]'>
       <input id='my-drawer' type='checkbox' className='drawer-toggle' />
@@ -41,7 +43,10 @@ export default function Menu() {
           className='drawer-overlay'></label>
         <ul className='menu p-4 w-50 min-h-full bg-base-200 text-base-content'>
           {/* Sidebar content here */}
-          <li>
+          <li
+            onClick={() => {
+              router.push(MENUS.WHO_AM_I);
+            }}>
             <a>Sun, 누구냐 너</a>
           </li>
         </ul>

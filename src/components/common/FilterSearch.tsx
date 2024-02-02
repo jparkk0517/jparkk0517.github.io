@@ -57,7 +57,7 @@ export default function FilterSearch({
       </div>
       {filters && (
         <select
-          className='select select-bordered join-item'
+          className='select select-bordered join-item select-sm'
           defaultValue={selectedFilter}>
           {filters.map((filter) => (
             <option key={filter.key}>{filter.label}</option>

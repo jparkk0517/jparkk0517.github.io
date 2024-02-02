@@ -5,6 +5,7 @@ import CardList from '@/components/common/CardList';
 import Button from '@/components/common/Button';
 import { useRouter } from 'next/router';
 import useSearchKeyword from '@/store/searchStore';
+import { MENUS } from '@/common/constants';
 
 export default function Home({ posts }: IPostsProps) {
   const { searchKeyword } = useSearchKeyword();
@@ -26,7 +27,7 @@ export default function Home({ posts }: IPostsProps) {
             children: post.meta.desc,
             tags: post.meta.tags ?? [],
             onClick: () => {
-              router.push(`/posts/${post.route}`);
+              router.push(MENUS.POST(post.route));
             },
             footer: <Button onClick={() => {}}>보러가기</Button>,
             date: post.meta.date,
