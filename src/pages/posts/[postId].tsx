@@ -2,9 +2,22 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { GetStaticProps } from 'next';
-import { marked } from 'marked';
+import { Marked } from 'marked';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { markedHighlight } from 'marked-highlight';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github.css';
+
+const marked = new Marked(
+  markedHighlight({
+    langPrefix: 'hljs language-',
+    highlight(code, lang, info) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, { language }).value;
+    },
+  })
+);
 
 const renderer = new marked.Renderer();
 
@@ -15,7 +28,7 @@ renderer.code = function (code: string) {
         .split('\n')
         .map(
           (_code, idx) =>
-            `<pre data-prefix="${idx}" style="padding:0;background-color:var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));color:white;"><code>${marked.parseInline(
+            `<pre  style="margin-bottom:0;padding:0;background-color:var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));color:white;"><code>${marked.parseInline(
               _code
             )}</code></pre>`
         )
