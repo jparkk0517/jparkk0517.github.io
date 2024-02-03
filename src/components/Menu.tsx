@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 export default function Menu() {
   const router = useRouter();
   return (
-    <div className='drawer absolute left-5 z-30 w-[90vw] bottom-[10vh]'>
+    <div className='drawer absolute left-5 z-30 w-0 bottom-[10vh]'>
       <input id='my-drawer' type='checkbox' className='drawer-toggle' />
       <div className='drawer-content'>
         {/* Page content here */}

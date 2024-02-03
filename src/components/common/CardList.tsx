@@ -80,7 +80,9 @@ const CardList = ({
             .map((idx) => (
               <button
                 key={idx}
-                onClick={() => setCursor(idx)}
+                onClick={() => {
+                  setCursor(idx);
+                }}
                 className={`join-item btn btn-lg ${
                   idx === cursor ? 'btn-active' : ''
                 }`}>
