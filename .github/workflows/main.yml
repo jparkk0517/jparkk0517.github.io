@@ -1,7 +1,4 @@
 name: sunBlog deploy github action
-strategy:
-  matrix:
-    node-version: ['21.x']
 
 on: [push]
 
