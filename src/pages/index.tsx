@@ -7,9 +7,26 @@ import { useRouter } from 'next/router';
 import useSearchKeyword from '@/store/searchStore';
 import { MENUS } from '@/common/constants';
 
+function postFilter(searchFilter: 'tag' | 'title', searchKeyword: string) {
+  return (post: IPost) => {
+    if (searchKeyword === '') return true;
+    if (searchFilter === 'tag') {
+      return post.meta.tags
+        .map((tag) => tag.toLowerCase())
+        .includes(searchKeyword.toLowerCase());
+    } else if (searchFilter === 'title') {
+      return post.meta.title
+        .toLowerCase()
+        .includes(searchKeyword.toLowerCase());
+    }
+    return true;
+  };
+}
+
 export default function Home({ posts }: IPostsProps) {
-  const { searchKeyword } = useSearchKeyword();
+  const { searchKeyword, searchFilter } = useSearchKeyword();
   const router = useRouter();
+  const filter = postFilter(searchFilter, searchKeyword);
 
   return (
     <>
@@ -17,21 +34,16 @@ export default function Home({ posts }: IPostsProps) {
         page={{
           pageLen: 8,
         }}
-        items={posts
-          .filter(
-            (post) =>
-              post.meta.tags.includes(searchKeyword) || searchKeyword === ''
-          )
-          .map((post) => ({
-            title: post.meta.title,
-            children: post.meta.desc,
-            tags: post.meta.tags ?? [],
-            onClick: () => {
-              router.push(MENUS.POST(post.route));
-            },
-            footer: <Button onClick={() => {}}>보러가기</Button>,
-            date: post.meta.date,
-          }))}
+        items={posts.filter(filter).map((post) => ({
+          title: post.meta.title,
+          children: post.meta.desc,
+          tags: post.meta.tags ?? [],
+          onClick: () => {
+            router.push(MENUS.POST(post.route));
+          },
+          footer: <Button onClick={() => {}}>보러가기</Button>,
+          date: post.meta.date,
+        }))}
       />
     </>
   );

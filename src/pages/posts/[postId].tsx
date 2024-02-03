@@ -12,7 +12,6 @@ import { MENUS } from '@/common/constants';
 
 const marked = new Marked(
   markedHighlight({
-    langPrefix: 'hljs language-',
     highlight(code, lang, info) {
       const language = hljs.getLanguage(lang) ? lang : 'plaintext';
       return hljs.highlight(code, { language }).value;
@@ -24,16 +23,10 @@ const renderer = new marked.Renderer();
 
 renderer.code = function (code: string) {
   return `
-    <div class="mockup-code" style="width:90%;margin:auto;">
-      ${code
-        .split('\n')
-        .map(
-          (_code, idx) =>
-            `<pre  style="margin-bottom:0;padding:0;background-color:var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));color:white;"><code>${marked.parseInline(
-              _code
-            )}</code></pre>`
-        )
-        .join('')}
+    <div class="mockup-code" style="width:90%;margin:auto;margin-bottom:20px;">
+      <pre  style="margin-bottom:0;padding:0;background-color:var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));color:white;">
+      <code>\n${marked.parseInline(code)}</code>
+      </pre>
     </div>
   `;
 };
@@ -49,6 +42,7 @@ export default function Post({
 }) {
   const route = useRouter();
   if (!post) return <>해당 포스트가 존재하지 않습니다.</>;
+
   return (
     <>
       <Head>
@@ -63,7 +57,14 @@ export default function Post({
             <div className='max-w-md'>
               <h1 className='text-5xl font-bold'>{post.meta.title}</h1>
               <p className='my-4'>{post.meta.date}</p>
-              <div className='max-w-[80vw] break-words'>{post.meta.desc}</div>
+              <div className='max-w-[80vw] break-words mb-4'>
+                {post.meta.desc}
+              </div>
+              {post.meta.tags.map((tag) => (
+                <div className={`badge badge-outline `} key={tag}>
+                  {tag}
+                </div>
+              ))}
               {/* <button className='btn btn-primary'>Get Started</button> */}
             </div>
           </div>

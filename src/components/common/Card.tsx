@@ -1,4 +1,3 @@
-import useSearchKeyword from '@/store/searchStore';
 import { ReactNode } from 'react';
 
 interface ICard {
@@ -7,11 +6,24 @@ interface ICard {
   footer: ReactNode;
   date: ReactNode;
   tags?: string[];
+  emphatic?: {
+    title?: string;
+    tag?: string;
+    desc?: string;
+  };
   onClick?: () => void;
+  onClickTag?: (tag: string) => void;
 }
 
-const Card = ({ title, children, date, onClick, tags = [] }: ICard) => {
-  const { searchKeyword } = useSearchKeyword();
+const Card = ({
+  title,
+  children,
+  date,
+  onClick,
+  emphatic,
+  onClickTag,
+  tags = [],
+}: ICard) => {
   return (
     <div
       onClick={onClick}
@@ -31,8 +43,14 @@ const Card = ({ title, children, date, onClick, tags = [] }: ICard) => {
         <div className='card-actions justify-end'>
           {tags.map((tag) => (
             <div
+              onClick={(e) => {
+                e.stopPropagation();
+                onClickTag && onClickTag(tag);
+              }}
               className={`badge badge-outline ${
-                tag.includes(searchKeyword) && searchKeyword !== ''
+                emphatic?.tag &&
+                tag.toLowerCase().includes(emphatic.tag.toLowerCase()) &&
+                emphatic.tag !== ''
                   ? 'border-secondary text-secondary'
                   : ''
               }`}

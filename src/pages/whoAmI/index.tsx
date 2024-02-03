@@ -4,20 +4,7 @@ export default function WhoAmI() {
   return (
     <ul className='timeline timeline-snap-icon max-md:timeline-compact timeline-vertical pb-20'>
       <li>
-        <TimeLineCard title='LG CNS 입사' date='2019.01' leftRight='left' />
-      </li>
-      <li>
-        <TimeLineCard
-          date='2019.04 ~ 2020.02'
-          title='기상청 MSA전환 프로젝트'
-          description={
-            <>
-              <p>레거시 프로젝트 MSA 전환을 위한 서버 로직 수정</p>
-              <p>사용기술 : java, string</p>
-            </>
-          }
-          leftRight='right'
-        />
+        <TimeLineCard title='LG CNS 입사' date='2019.01' leftRight='right' />
       </li>
       <li>
         <TimeLineCard

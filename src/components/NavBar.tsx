@@ -4,7 +4,8 @@ import FilterSearch from '@/components/common/FilterSearch';
 
 const NavBar = () => {
   const router = useRouter();
-  const { setSearchKeyword } = useSearchKeyword();
+  const { setSearchKeyword, setSearchFilter, searchFilter, searchKeyword } =
+    useSearchKeyword();
 
   return (
     <div className='navbar bg-base-100 sticky top-0 z-10'>
@@ -20,18 +21,21 @@ const NavBar = () => {
       <div className='flex-none gap-2'>
         <div className='form-control'>
           <FilterSearch
-            onSearch={({ searchKeyword }) => {
+            onSearch={({ searchKeyword, selectedFilter }) => {
               setSearchKeyword(searchKeyword);
+              setSearchFilter(selectedFilter as 'title' | 'tag');
             }}
+            initialSelectedFilterKey={searchFilter}
+            initialSearchKeyword={searchKeyword}
             filters={[
               {
                 key: 'tag',
                 label: '키워드',
               },
-              // {
-              //   key: 'title',
-              //   label: '제목',
-              // },
+              {
+                key: 'title',
+                label: '제목',
+              },
               // {
               //   key: 'content',
               //   label: '내용',

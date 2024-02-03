@@ -1,0 +1,90 @@
+---
+title: ShadowDOM에 대한 이해와 활용
+desc: ShadowDOM을 활용한 CSS 은닉과 그 활용
+date: 2024.02.03
+tags: [shadow dom, 쉐도우 돔, css 은닉]
+---
+
+# Shadow DOM이란 무엇인가?
+
+- cssom tree를 따로 가지는 html element
+- [shadowDOM mdn 설명 보러가기](https://developer.mozilla.org/ko/docs/Web/API/Web_components/Using_shadow_DOM)
+  ![240203-163855](/posts/2024-02-03/240203-163855.png)
+  그림1. shadowDOM cssom tree구조도 ( 출처: mdn)
+
+  > shadow dom을 활용하면 shadow dom 내/외부의 css가 서로 간섭없이 사용이 가능하다  
+  > 만약 특정 dom element가 내/외부 의 css와 연관없이 동작하도록 하고 싶다면 shadowDOM을 활용하면 된다
+
+  ```javascript
+  const openShadowRoot = (dom: HTMLElement) => {
+    if (dom?.shadowRoot) return dom.shadowRoot;
+    const shadowRoot = dom.attachSadow({
+      mode: 'open',
+    });
+    return shadowRoot;
+  };
+
+  const shadowRoot = openShadowRoot(document.querySelector('#root'));
+  console.log(shadowRoot);
+  ```
+
+  위와같이 shadow DOM으로 활용하고자 하는 dom element에 attachShadow를 해주면
+  shadow-root가 오픈된다.
+  ![240203-164510](/posts/2024-02-03/240203-164510.png)
+  ![240203-164702](/posts/2024-02-03/240203-164702.png)
+
+  <hr />
+
+  ## shadowDOM의 활용 ( React )
+
+  이렇게 만든 shadowDOM을 리액트 환경에서 한번 활용해보자
+
+```typescript
+// ShadowDOM.tsx
+import { ReactNode, useRef, useState, ReactPortal, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+
+export default function ShadowDOM({ children }: { children?: ReactNode }) {
+  const divRef = useRef<HTMLDivElement>(null);
+  const [portal, setPortal] = useState<ReactPortal | null>(null);
+
+  useEffect(() => {
+    if (!divRef.current || divRef?.current?.shadowRoot) return;
+    const shadowRoot =
+      divRef?.current?.shadowRoot ??
+      divRef.current.attachShadow({ mode: 'open' });
+    const _portal = createPortal(children, shadowRoot);
+    setPortal(_portal as ReactPortal);
+  }, [children]);
+
+  return <div ref={divRef}>{portal}</div>;
+}
+
+// Home.tsx
+import ShadowDOM from '@/components/common/ShadowDOM';
+
+export default function Home() {
+  return (
+    <ShadowDOM>
+      <style>
+        {'div { background-color: red; width: 200px; height: 300px;}'}
+      </style>
+      <div>home</div>
+    </ShadowDOM>
+  );
+}
+```
+
+![240203-182312](/posts/2024-02-03/240203-182312.png)
+![240203-182137](/posts/2024-02-03/240203-182137.png)
+
+위와같이 home 컴포넌트의 background-color가 외부에 전파되지 않는것을 확인할 수 있다.
+
+<iframe
+  width='300'
+  height='400'
+  src='/home'
+  frameborder='0'
+  allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture'
+  allowfullscreen></iframe>
+예시1. shadowDOM을 통한 css 은닉 화면 (iframe)

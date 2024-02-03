@@ -58,9 +58,16 @@ export default function FilterSearch({
       {filters && (
         <select
           className='select select-bordered join-item select-sm'
-          defaultValue={selectedFilter}>
+          onChange={(e) => {
+            setSelectedFilter(e.target.value);
+          }}>
           {filters.map((filter) => (
-            <option key={filter.key}>{filter.label}</option>
+            <option
+              key={filter.key}
+              selected={filter.key === selectedFilter}
+              value={filter.key}>
+              {filter.label}
+            </option>
           ))}
         </select>
       )}
@@ -74,7 +81,7 @@ export default function FilterSearch({
               searchKeyword,
             });
           }}>
-          Search
+          조회
         </button>
       </div>
     </div>
