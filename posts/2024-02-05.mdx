@@ -1,0 +1,46 @@
+---
+title: github blog 구축기(2)
+desc: 깃헙블로그로 블로그를 이사한 후기를 공유해보자
+date: 2024.02.05
+tags: [next.js, github blog, gh-pages, mdx]
+---
+
+# 블로그 글 작성 및 표출하는 방법은?
+
+- 기본적으로 포스팅은 markdown으로 작성하도록 하고싶다.
+  - 작성 과정에서 markdown으로 글을 확인하고, 그대로 표출되도록 하고싶기 때문
+- 별도 서버 없이 작성한 post markdown파일을 github에 저장하고, 그걸 그대로 표출 하고싶다.
+
+=> mdx 파일로 작성하고, meta 정보를 parsing하여 글 목록에 표출하도록 하고, 표스팅 내용은 dynamic routing으로 확인할 수 있는 구조로 짜도록 하자!
+
+![240205-212509](/posts/2024-02-05/240205-212509.png)
+그림1. src 폴더 하부 구조
+
+기본적인 폴더 구조는 다음과 같이
+/pages 폴더 밑에 [postId].tsx를 두어 dynamic routing이 가능하도록 했다.
+
+# 본격 github page 배포
+
+> gh-pages library를 사용!
+> [gh-pages npm repository](https://www.npmjs.com/package/gh-pages)
+
+github page에 내가 작성한 markdown을 포스팅으로 표출하기 위해
+gh-pages를 활용하도록 하고 deploy 스크립트는 다음과 같이 짰다.
+
+```bash
+ # package.json
+ "deploy": "next build && touch out/.nojekyll && gh-pages -d out --dotfiles",
+```
+
+이제 yarn deploy 명령어를 통해  
+ 연결한 git repository의 gh-pages 브랜치에 빌드된 결과물이 올라가게 된다.  
+ 이때 github repository 설정에서 표출할 branch를 gh-pages로 변경시켜준다.
+
+![240205-213613](/posts/2024-02-05/240205-213613.png)
+그림2. github repository settings
+
+![240205-213633](/posts/2024-02-05/240205-213633.png)
+그림3. gh-pages 브랜치를 github page 메인브랜치로 이용하도록 변경
+
+위와같이 설정했다면
+yarn deploy 명령어를 통해 github page가 배포됨을 알 수 있다.

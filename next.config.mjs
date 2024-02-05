@@ -1,24 +1,15 @@
 import createMDX from '@next/mdx';
 
-const isProduction = process.env.NODE_ENV === 'production';
-const envImageUnoptimize = isProduction ? false : true;
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: !isProduction ? undefined : 'export',
+  output: 'export',
   images: {
-    unoptimized: envImageUnoptimize,
+    unoptimized: false,
   },
-  assetPrefix: isProduction ? '/' : undefined,
+  assetPrefix: '/',
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
 };
 
-const withMDX = createMDX({
-  // Add markdown plugins here, as desired
-  options: {
-    remarkPlugins: [],
-    rehypePlugins: [],
-  },
-});
+const withMDX = createMDX();
 
 export default withMDX(nextConfig);

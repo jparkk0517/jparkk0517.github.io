@@ -1,5 +1,5 @@
 ---
-title: github blog 구축기
+title: github blog 구축기(1)
 desc: 깃헙블로그로 블로그를 이사한 후기를 공유해보자
 date: 2024.02.04
 tags: [next.js, github blog, gh-pages, mdx]
@@ -32,6 +32,33 @@ tags: [next.js, github blog, gh-pages, mdx]
 따라서 이 이름으로 repository를 생성한다.
 
 ![240203-225036](/posts/2024-02-04/240203-225036.png)  
-/{ 깃헙아이디 }.github.io 로 레포지토리 생성!!
+( 깃헙아이디 ).github.io 로 레포지토리 생성!!
 
-##
+## next.js 생성 및 설정
+
+```bash
+$ npx create-next-app@latest
+```
+
+```mjs
+// next.config.mjs
+import createMDX from '@next/mdx';
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // static page들로만 구성하도록 하기 위해 export 설정 추가
+  output: 'export',
+  // github page는 정적 페이지로 구성되기때문에 image에 대하 optimized를 꺼준다
+  images: {
+    unoptimized: false,
+  },
+  assetPrefix: '/',
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
+};
+
+const withMDX = createMDX();
+
+export default withMDX(nextConfig);
+```
+
+위와같이 설정하면 기본적으로 github page에 정적 페이지로 표출될 수 있는 기본 설정이 마무리된다.

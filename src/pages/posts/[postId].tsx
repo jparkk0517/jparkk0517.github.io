@@ -23,8 +23,8 @@ const renderer = new marked.Renderer();
 
 renderer.code = function (code: string) {
   return `
-    <div class="mockup-code" style="width:90%;margin:auto;margin-bottom:20px;">
-      <pre  style="margin-bottom:0;padding:0;background-color:var(--fallback-n,oklch(var(--n)/var(--tw-bg-opacity)));color:white;">
+    <div class="mockup-code border bg-[#f6f8fa]" style="width:90%;margin:auto;margin-bottom:20px;">
+      <pre style="margin-bottom:0;padding:0;">
       <code>\n${marked.parseInline(code)}</code>
       </pre>
     </div>
@@ -72,7 +72,7 @@ export default function Post({
 
         <div className='divider' />
 
-        <article className='markdown-body min-h-[58vh]'>
+        <article className='markdown-body min-h-[58vh] px-6'>
           <div
             dangerouslySetInnerHTML={{
               __html: marked.parse(post.content, {

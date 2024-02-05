@@ -1,11 +1,22 @@
 import { MENUS } from '@/common/constants';
 import { useRouter } from 'next/router';
+import { useRef } from 'react';
 
 export default function Menu() {
   const router = useRouter();
+  const checkBoxRef = useRef<HTMLInputElement>(null);
+  const handleChangePage = (path: string) => {
+    router.push(path);
+    checkBoxRef.current?.click();
+  };
   return (
     <div className='drawer absolute left-5 z-30 w-0 bottom-[10vh]'>
-      <input id='my-drawer' type='checkbox' className='drawer-toggle' />
+      <input
+        id='my-drawer'
+        type='checkbox'
+        className='drawer-toggle'
+        ref={checkBoxRef}
+      />
       <div className='drawer-content'>
         {/* Page content here */}
         <label className='btn btn-circle swap swap-rotate' htmlFor='my-drawer'>
@@ -45,7 +56,7 @@ export default function Menu() {
           {/* Sidebar content here */}
           <li
             onClick={() => {
-              router.push(MENUS.WHO_AM_I);
+              handleChangePage(MENUS.WHO_AM_I);
             }}>
             <a>Sun, 누구냐 너</a>
           </li>
