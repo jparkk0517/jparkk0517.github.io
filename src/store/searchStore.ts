@@ -13,7 +13,7 @@ const useSearchKeyword = create<{
     set((_state) => ({ ..._state, searchKeyword }));
   },
   clearSearchKeyword() {
-    set((_state) => ({ ..._state, searchKeyword: '' }));
+    set((_state) => ({ ..._state, searchKeyword: '', searchFilter: 'tag' }));
   },
   setSearchFilter(searchFilter) {
     set((_state) => ({ ..._state, searchFilter }));

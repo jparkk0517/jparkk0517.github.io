@@ -4,8 +4,13 @@ import FilterSearch from '@/components/common/FilterSearch';
 
 const NavBar = () => {
   const router = useRouter();
-  const { setSearchKeyword, setSearchFilter, searchFilter, searchKeyword } =
-    useSearchKeyword();
+  const {
+    setSearchKeyword,
+    setSearchFilter,
+    searchFilter,
+    searchKeyword,
+    clearSearchKeyword,
+  } = useSearchKeyword();
 
   return (
     <div className='navbar bg-base-100 sticky top-0 z-10'>
@@ -14,6 +19,7 @@ const NavBar = () => {
           className='btn btn-ghost text-xl'
           onClick={() => {
             router.push('/');
+            clearSearchKeyword();
           }}>
           SunBlog
         </a>
