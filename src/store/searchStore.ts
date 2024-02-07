@@ -1,12 +1,13 @@
 import { create } from 'zustand';
-
-const useSearchKeyword = create<{
+interface ISearchKeyword {
   searchKeyword: string;
   searchFilter: 'tag' | 'title';
   setSearchKeyword: (searchKeyword: string) => void;
   clearSearchKeyword: () => void;
   setSearchFilter: (searchFilter: 'tag' | 'title') => void;
-}>((set) => ({
+}
+
+const useSearchKeyword = create<ISearchKeyword>((set) => ({
   searchKeyword: '',
   searchFilter: 'title',
   setSearchKeyword(searchKeyword) {
@@ -19,5 +20,6 @@ const useSearchKeyword = create<{
     set((_state) => ({ ..._state, searchFilter }));
   },
 }));
+
 
 export default useSearchKeyword;

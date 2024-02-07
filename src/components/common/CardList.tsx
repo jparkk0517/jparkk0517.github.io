@@ -6,9 +6,8 @@ interface IPage {
 }
 
 interface IItem {
-  title: ReactNode;
+  title: string;
   children: ReactNode;
-  footer: ReactNode;
   date: ReactNode;
   onClick: () => void;
   tags?: string[];
@@ -25,10 +24,10 @@ const CardList = ({
   items = [],
   page = { pageLen: 10 },
   onChangePage,
-  onSelect,
 }: ICardList) => {
   const { searchFilter, searchKeyword, setSearchFilter, setSearchKeyword } =
     useSearchKeyword();
+
   const [cursor, setCursor] = useState(0);
   const lastPageCount = Math.ceil(items.length / page.pageLen);
   const displayedItems = items.slice(
@@ -41,25 +40,31 @@ const CardList = ({
   }, [onChangePage, cursor]);
 
   return (
-    <div>
-      <ul className='list-none p-0' style={{ display: 'ruby' }}>
-        {displayedItems.map((item, idx) => (
-          <li key={idx.toString()} className='inline-block'>
-            <Card
-              {...item}
-              onClickTag={(tag) => {
-                setSearchFilter('tag');
-                setSearchKeyword(tag);
-              }}
-              key={idx.toString()}
-              emphatic={{
-                tag: searchFilter === 'tag' ? searchKeyword : undefined,
-                title: searchFilter === 'title' ? searchKeyword : undefined,
-              }}
-            />
-          </li>
-        ))}
-      </ul>
+    <div className='h-[100%]'>
+      {displayedItems.length === 0 ? (
+        <div className='text-black text-6xl h-[100%] font-black grid place-content-center'>
+          No Data
+        </div>
+      ) : (
+        <ul className='list-none p-0' style={{ display: 'ruby' }}>
+          {displayedItems.map((item, idx) => (
+            <li key={idx.toString()} className='inline-block'>
+              <Card
+                {...item}
+                onClickTag={(tag) => {
+                  setSearchFilter('tag');
+                  setSearchKeyword(tag);
+                }}
+                key={idx.toString()}
+                emphatic={{
+                  tag: searchFilter === 'tag' ? searchKeyword : undefined,
+                  title: searchFilter === 'title' ? searchKeyword : undefined,
+                }}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
       <div className='flex justify-center mt-4'>
         <div className='join'>
           {cursor > 3 && (

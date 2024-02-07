@@ -1,6 +1,3 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
 import { GetStaticProps } from 'next';
 import { Marked } from 'marked';
 import Head from 'next/head';
@@ -9,10 +6,11 @@ import { markedHighlight } from 'marked-highlight';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css';
 import { MENUS } from '@/common/constants';
+import { getPostById, getPostIds } from '@/common/utils';
 
 const marked = new Marked(
   markedHighlight({
-    highlight(code, lang, info) {
+    highlight(code, lang) {
       const language = hljs.getLanguage(lang) ? lang : 'plaintext';
       return hljs.highlight(code, { language }).value;
     },
@@ -61,7 +59,7 @@ export default function Post({
                 {post.meta.desc}
               </div>
               {post.meta.tags.map((tag) => (
-                <div className={`badge badge-outline `} key={tag}>
+                <div className={`badge badge-outline mr-1`} key={tag}>
                   {tag}
                 </div>
               ))}
@@ -81,7 +79,7 @@ export default function Post({
             }}
           />
         </article>
-        <div className='flex justify-between'>
+        <div className='flex justify-between  mt-10'>
           {
             <button
               className={`btn btn-neutral btn-sm md:btn-md gap-2 lg:gap-3 ${
@@ -136,68 +134,38 @@ export default function Post({
   );
 }
 
-function getPostFileNames() {
-  const files = fs
-    .readdirSync(path.join('posts'))
-    .filter((filename) => filename.endsWith('.mdx'));
-  return files;
-}
-
 export async function getStaticPaths() {
-  const files = getPostFileNames();
+  const postIds = getPostIds();
 
-  const posts = files.map(
-    (filename) => `/posts/${filename.replaceAll('.mdx', '')}`
-  );
+  const posts = postIds.map((postId) => `/posts/${postId}`);
+
   return {
     paths: posts,
     fallback: false,
   };
 }
-
-function getPostById(postId: string) {
-  const markdownWithMeta = fs.readFileSync(
-    path.join('posts', postId + '.mdx'),
-    'utf-8'
-  );
-  const { data: meta, content } = matter(markdownWithMeta);
-  return {
-    meta: {
-      title: meta['title'] ?? '',
-      desc: meta['desc'] ?? '',
-      date: meta['date'] ?? '',
-      tags: meta['tags'] ?? [],
-    },
-    content,
-    fileName: postId,
-    route: postId,
-  };
-}
-
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { postId = '' } = params ?? { postId: '' };
-  const files = getPostFileNames();
-  for (let i = 0; i < files.length; i++) {
-    if (files[i] === `${postId}.mdx`) {
-      return {
-        props: {
-          post: getPostById(postId as string),
-          prev:
-            i === 0 ? null : getPostById(files[i - 1].replaceAll('.mdx', '')),
-          next:
-            i + 1 === files.length
-              ? null
-              : getPostById(files[i + 1].replaceAll('.mdx', '')),
-        },
-      };
+  const postIds = getPostIds();
+  const idx = postIds.findIndex((_postId) => postId === _postId);
+  let prev = null,
+    post = null,
+    next = null;
+  for (let i = 0; i < postIds.length; i++) {
+    const _postId = postIds[i];
+    if (_postId === postId) {
+      prev = i === 0 ? null : getPostById(postIds[i - 1]);
+      post = getPostById(_postId);
+      next = i + 1 === postIds.length ? null : getPostById(postIds[i + 1]);
+      break;
     }
   }
 
   return {
     props: {
-      post: null,
-      prev: null,
-      next: null,
+      prev,
+      post,
+      next,
     },
   };
 };

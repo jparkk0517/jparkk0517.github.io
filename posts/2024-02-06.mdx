@@ -1,0 +1,80 @@
+---
+title: github blog 구축기(3)
+desc: mdx를 이용한 포스팅 작성
+date: 2024.02.06
+tags: [next.js, github blog, gh-pages, mdx]
+---
+
+# 포스팅의 meta정보 입력
+
+- 포스팅의 meta정보를 통해 포스트 리스트 표출시 정보를 표출해야 한다.
+
+![240207-232027](/posts/2024-02-06/240207-232027.png)
+그림1. .mdx 의 meta정보
+
+> getStaticProps로 post가져오기
+
+```typescript
+import fs from 'fs';
+import matter from 'gray-matter';
+import path from 'path';
+
+export function getPostIds() {
+  const files = fs
+    .readdirSync(path.join('posts'))
+    .filter((filename) => filename.endsWith('.mdx'))
+    .map((filename) => filename.replaceAll('.mdx', ''));
+  return files;
+}
+
+export function getPostById(postId: string) {
+  const markdownWithMeta = fs.readFileSync(
+    path.join('posts', postId + '.mdx'),
+    'utf-8'
+  );
+  const { data: meta, content } = matter(markdownWithMeta);
+  return {
+    meta: {
+      title: meta['title'] ?? '',
+      desc: meta['desc'] ?? '',
+      date: meta['date'] ?? '',
+      tags: meta['tags'] ?? [],
+    },
+    content,
+    fileName: postId,
+    route: postId,
+  };
+}
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { postId = '' } = params ?? { postId: '' };
+  const postIds = getPostIds();
+  const idx = postIds.findIndex((_postId) => postId === _postId);
+  let prev = null,
+    post = null,
+    next = null;
+  for (let i = 0; i < postIds.length; i++) {
+    const _postId = postIds[i];
+    if (_postId === postId) {
+      prev = i === 0 ? null : getPostById(postIds[i - 1]);
+      post = getPostById(_postId);
+      next = i + 1 === postIds.length ? null : getPostById(postIds[i + 1]);
+      break;
+    }
+  }
+
+  return {
+    props: {
+      prev,
+      post,
+      next,
+    },
+  };
+};
+```
+
+root folder에 posts 폴더를 만들고 그 내부에 포스트들을 mdx파일로 생성하고, 그 파일들을 읽도록 했다.
+![240208-020424](/posts/2024-02-06/240208-020424.png)
+그림2. folder 구조 및 posts 폴더
+
+이때 폴더명은 포스트가 작성된 날짜를 기준으로 했고, 그 날짜는 mdx 내부에 적어놓은 meta와 동일하게 맞추었다.
