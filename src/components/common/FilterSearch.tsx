@@ -32,6 +32,9 @@ export default function FilterSearch({
     });
     router.push('/');
   };
+  const handleClear = () => {
+    setSearchKeyword('');
+  };
 
   useEffect(() => {
     setSearchKeyword(initialSearchKeyword);
@@ -49,9 +52,9 @@ export default function FilterSearch({
   return (
     <div className='join'>
       <div>
-        <div>
+        <div className='flex border-base-300 border-2'>
           <input
-            className='input input-sm input-bordered join-item max-w-[30vw]'
+            className='input input-sm join-item max-w-[30vw] focus:outline-none focus:border-none h-[30px]'
             placeholder={placeholder}
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
@@ -59,11 +62,23 @@ export default function FilterSearch({
               if (e.key === 'Enter') handleSearch();
             }}
           />
+          <span className='cursor-pointer mr-2' onClick={handleClear}>
+            <svg
+              className='w-4 text-gray-600 h-[100%]'
+              fill='none'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              strokeWidth='2'
+              viewBox='0 0 24 24'
+              stroke='currentColor'>
+              <path d='M6 18L18 6M6 6l12 12'></path>
+            </svg>
+          </span>
         </div>
       </div>
       {filters && (
         <select
-          className='select select-bordered join-item select-sm'
+          className='select select-bordered join-item select-sm h-[34px] border-2 focus:outline-none'
           onChange={(e) => {
             setSelectedFilter(e.target.value);
           }}>
@@ -79,7 +94,9 @@ export default function FilterSearch({
       )}
       <div className='indicator'>
         {/* <span className='indicator-item badge badge-secondary'>new</span> */}
-        <button className='btn join-item btn-sm' onClick={handleSearch}>
+        <button
+          className='btn join-item btn-sm h-[34px]'
+          onClick={handleSearch}>
           조회
         </button>
       </div>
