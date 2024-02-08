@@ -52,7 +52,7 @@ export default function FilterSearch({
   return (
     <div className='join'>
       <div>
-        <div className='flex border-base-300 border-2'>
+        <div className='flex border-base-300 border-2 border-r-0 rounded-l-xl rounded-r-none'>
           <input
             className='input input-sm join-item max-w-[30vw] focus:outline-none focus:border-none h-[30px]'
             placeholder={placeholder}
