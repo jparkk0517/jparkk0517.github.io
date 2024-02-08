@@ -39,6 +39,7 @@ export default function Post({
   next: IPost | null;
 }) {
   const route = useRouter();
+
   if (!post) return <>해당 포스트가 존재하지 않습니다.</>;
 
   return (
@@ -67,24 +68,28 @@ export default function Post({
             </div>
           </div>
         </div>
-
         <div className='divider' />
-
-        <article className='markdown-body min-h-[58vh] px-6'>
-          <div
+        <div
+          className='markdown-body min-h-[58vh] px-6 max-w-[100vw]'
+          dangerouslySetInnerHTML={{
+            __html: marked.parse(post.content, {
+              renderer,
+            }),
+          }}>
+          {/* <div
             dangerouslySetInnerHTML={{
               __html: marked.parse(post.content, {
                 renderer,
               }),
             }}
-          />
-        </article>
-        <div className='flex justify-between  mt-10'>
+          /> */}
+        </div>
+        <div className='flex justify-between mt-10 max-w-[100vw]'>
           {
             <button
-              className={`btn btn-neutral btn-sm md:btn-md gap-2 lg:gap-3 ${
+              className={`btn btn-8xl md:btn-md gap-2 lg:gap-3 ${
                 prev ? '' : 'btn-disabled'
-              }`}
+              } w-[48%]`}
               onClick={() => {
                 prev && route.push(MENUS.POST(prev.route));
               }}>
@@ -96,28 +101,22 @@ export default function Post({
                 viewBox='0 0 24 24'>
                 <path d='M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z'></path>
               </svg>
-              <div className='flex flex-col items-start'>
-                <span className='text-base-content/50 hidden text-xs font-normal md:block'>
-                  Prev
-                </span>
-                <span>{prev?.meta.title ?? ''}</span>
-              </div>
+              <span className='w-[70%] overflow-hidden text-xs'>
+                {prev?.meta.title ?? ''}
+              </span>
             </button>
           }
           {
             <button
-              className={`btn btn-neutral btn-sm md:btn-md gap-2 lg:gap-3 ${
+              className={`btn btn-8xl md:btn-md gap-2 lg:gap-3 ${
                 next ? '' : 'btn-disabled'
-              }`}
+              } w-[48%]`}
               onClick={() => {
                 next && route.push(MENUS.POST(next.route));
               }}>
-              <div className='flex flex-col items-end'>
-                <span className='text-neutral-content/50 hidden text-xs font-normal md:block'>
-                  Next
-                </span>
-                <span>{next?.meta.title ?? ''}</span>
-              </div>
+              <span className='w-[70%] overflow-hidden  text-xs'>
+                {next?.meta.title ?? ''}
+              </span>
               <svg
                 className='h-6 w-6 fill-current md:h-8 md:w-8'
                 xmlns='http://www.w3.org/2000/svg'

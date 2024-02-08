@@ -2,7 +2,8 @@ import Card from '@/components/common/Card';
 import { ReactNode, useEffect, useState } from 'react';
 import useSearchKeyword from '@/store/searchStore';
 interface IPage {
-  pageLen: number;
+  pageLen?: number;
+  pageNumber?: number;
 }
 
 interface IItem {
@@ -20,25 +21,22 @@ interface ICardList {
   onSelect?: (item: IItem) => void;
 }
 
-const CardList = ({
-  items = [],
-  page = { pageLen: 10 },
-  onChangePage,
-}: ICardList) => {
+const CardList = ({ items = [], page, onChangePage }: ICardList) => {
+  const { pageLen = 10, pageNumber = 0 } = page ?? {};
   const { searchFilter, searchKeyword, setSearchFilter, setSearchKeyword } =
     useSearchKeyword();
 
-  const [cursor, setCursor] = useState(0);
-  const lastPageCount = Math.ceil(items.length / page.pageLen);
-  const displayedItems = items.slice(
-    cursor * page.pageLen,
-    (cursor + 1) * page.pageLen
-  );
+  const [cursor, setCursor] = useState(pageNumber);
+  const lastPageCount = Math.ceil(items.length / pageLen);
+  const displayedItems = items.slice(cursor * pageLen, (cursor + 1) * pageLen);
 
   useEffect(() => {
     onChangePage && onChangePage(cursor);
   }, [onChangePage, cursor]);
 
+  useEffect(() => {
+    setCursor(pageNumber);
+  }, [pageNumber]);
   return (
     <div className='h-[100%]'>
       {displayedItems.length === 0 ? (
