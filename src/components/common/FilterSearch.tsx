@@ -25,6 +25,14 @@ export default function FilterSearch({
     initialSelectedFilterKey
   );
 
+  const handleSearch = () => {
+    onSearch({
+      selectedFilter,
+      searchKeyword,
+    });
+    router.push('/');
+  };
+
   useEffect(() => {
     setSearchKeyword(initialSearchKeyword);
     return () => {
@@ -48,11 +56,7 @@ export default function FilterSearch({
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
             onKeyUp={(e) => {
-              if (e.key === 'Enter')
-                onSearch({
-                  selectedFilter,
-                  searchKeyword,
-                });
+              if (e.key === 'Enter') handleSearch();
             }}
           />
         </div>
@@ -75,15 +79,7 @@ export default function FilterSearch({
       )}
       <div className='indicator'>
         {/* <span className='indicator-item badge badge-secondary'>new</span> */}
-        <button
-          className='btn join-item btn-sm'
-          onClick={() => {
-            onSearch({
-              selectedFilter,
-              searchKeyword,
-            });
-            router.push('/');
-          }}>
+        <button className='btn join-item btn-sm' onClick={handleSearch}>
           조회
         </button>
       </div>
