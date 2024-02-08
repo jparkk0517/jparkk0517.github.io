@@ -16,13 +16,13 @@ interface IItem {
 
 interface ICardList {
   items?: IItem[];
-  page?: IPage;
+  pageInfo?: IPage;
   onChangePage?: (page: number) => void;
   onSelect?: (item: IItem) => void;
 }
 
-const CardList = ({ items = [], page, onChangePage }: ICardList) => {
-  const { pageLen = 10, pageNumber = 0 } = page ?? {};
+const CardList = ({ items = [], pageInfo = {}, onChangePage }: ICardList) => {
+  const { pageLen = 10, pageNumber = 1 } = pageInfo;
   const { searchFilter, searchKeyword, setSearchFilter, setSearchKeyword } =
     useSearchKeyword();
 
@@ -32,10 +32,12 @@ const CardList = ({ items = [], page, onChangePage }: ICardList) => {
 
   useEffect(() => {
     onChangePage && onChangePage(cursor);
-  }, [onChangePage, cursor]);
+  }, [onChangePage, cursor, pageNumber]);
 
   useEffect(() => {
-    setCursor(pageNumber);
+    let _pageNumber = pageNumber - 1;
+    console.log(pageNumber);
+    setCursor(_pageNumber);
   }, [pageNumber]);
   return (
     <div className=''>

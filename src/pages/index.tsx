@@ -1,11 +1,11 @@
 import fs from 'fs';
 import path from 'path';
-import matter from 'gray-matter';
 import CardList from '@/components/common/CardList';
 import { useRouter } from 'next/router';
 import useSearchKeyword from '@/store/searchStore';
 import { MENUS } from '@/common/constants';
 import { getAllPosts } from '@/common/utils';
+import { useEffect } from 'react';
 
 function postFilter(searchFilter: 'tag' | 'title', searchKeyword: string) {
   return (post: IPost) => {

@@ -28,7 +28,7 @@ const Card = ({
       <div
         onClick={onClick}
         className='card m-4 hover:scale-105 transform transition-transform duration-300 border border-slate-600 cursor-pointer max-w-[70vw]'>
-        <span className='indicator-item badge badge-primary right-8'>
+        <span className='indicator-item badge badge-neutral right-8'>
           {date}
         </span>
 
