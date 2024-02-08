@@ -10,7 +10,7 @@ export default function Menu() {
     checkBoxRef.current?.click();
   };
   return (
-    <div className='drawer absolute left-5 z-30 w-0 bottom-[10vh]'>
+    <div className='drawer absolute left-5 z-30 w-0 bottom-[5vh]'>
       <input
         id='my-drawer'
         type='checkbox'

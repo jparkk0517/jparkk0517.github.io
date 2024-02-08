@@ -38,9 +38,9 @@ const CardList = ({ items = [], page, onChangePage }: ICardList) => {
     setCursor(pageNumber);
   }, [pageNumber]);
   return (
-    <div className='h-[100%]'>
+    <div className=''>
       {displayedItems.length === 0 ? (
-        <div className='text-black text-6xl h-[100%] font-black grid place-content-center'>
+        <div className='text-black text-6xl h-[85vh] font-black grid place-content-center'>
           No Data
         </div>
       ) : (

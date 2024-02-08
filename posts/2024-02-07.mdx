@@ -1,0 +1,58 @@
+---
+title: github blog 구축기(4)
+desc: marked 라이브러리를 통한 markdown csr
+date: 2024.02.07
+tags: [next.js, github blog, gh-pages, mdx, marked, highlights]
+---
+
+# mdx로 작성한 파일의 정제
+
+> mdx 작성한 meta 정보를 제거하고싶었다.
+> 하지만 정보 제거에 어려움을 ...ㅠㅠ
+> next.js 내부에서 모두 해결하고자 했으나, 일단 정적 페이지로 만든 페이지의 경우 SEO 적용도 가능하므로
+> 굳이 여기에 시간 쓰지않고, markdown 문법을 react로 표출할 수 있도록 해주는 라이브러리를 찾기로 결정~!
+
+![240208-121859](/posts/2024-02-07/240208-121859.png)
+그림1. markdown 표출에 많이 쓰이는 npm library ( NPM trends )
+
+가장 사용량이 많고, 최근 없데이트가 되는걸로 보이는 marked를 이용하기로 결심
+
+## marked library
+
+> 사용방법이 어렵지 않고, markdown 문법의 문자열을 집어넣어넣고, 그 결과를 innerHTML로 넣으면 간단하게 표출됨을 확인
+
+```tsx
+ import { Marked } from 'marked';
+ import { markedHighlight } from 'marked-highlight';
+ import hljs from 'highlight.js';
+ import 'highlight.js/styles/github.css';
+
+ const marked = new Marked(
+   markedHighlight({
+     highlight(code, lang) {
+       const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+       return hljs.highlight(code, { language }).value;
+     },
+   })
+ );
+
+ const renderer = new marked.Renderer();
+
+ renderer.code = function (code: string) {
+   return '<div class="mockup-code border bg-[#f6f8fa]" style="width:90%;margin:auto;margin-bottom:20px;"><pre style="margin-bottom:0;padding:0;"><code>\n${marked.parseInline(code)}</code></pre></div>';
+ };
+
+ <div
+   className='markdown-body min-h-[58vh] px-6 max-w-[100vw]'
+   dangerouslySetInnerHTML={{
+     __html: marked.parse(post.content, {
+       renderer,
+     }),
+ }}>
+```
+
+code box 영역에 highlight를 적용하고 daisyUI에서 제공하는 mockup-code 를 활용하고 싶어 위와같이 짰다.
+![240208-122304](/posts/2024-02-07/240208-122304.png)
+그림2. daisyUI mockup code UI
+
+이렇게 하면 next.js에서 mdx로 작성한 페이지의 meta정보와 별개로 markdown 문법을 내 입맛에 맞게 표출 할 수 있게 되었다.

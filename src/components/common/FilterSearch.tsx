@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 interface IFilterSearch {
@@ -18,6 +19,7 @@ export default function FilterSearch({
   initialSelectedFilterKey = '',
   placeholder = '',
 }: IFilterSearch) {
+  const router = useRouter();
   const [searchKeyword, setSearchKeyword] = useState(initialSearchKeyword);
   const [selectedFilter, setSelectedFilter] = useState(
     initialSelectedFilterKey
@@ -80,6 +82,7 @@ export default function FilterSearch({
               selectedFilter,
               searchKeyword,
             });
+            router.push('/');
           }}>
           조회
         </button>

@@ -16,7 +16,7 @@ const Main = ({ children }: { children?: ReactNode }) => {
 
   return (
     <main
-      className='prose p-4 align-baseline overflow-y-scroll h-[85vh]'
+      className='prose p-4 align-baseline overflow-y-scroll h-[95vh]'
       ref={mainRef}>
       {children}
       <Menu />
