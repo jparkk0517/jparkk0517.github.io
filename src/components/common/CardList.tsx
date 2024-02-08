@@ -22,7 +22,7 @@ interface ICardList {
 }
 
 const CardList = ({ items = [], pageInfo = {}, onChangePage }: ICardList) => {
-  const { pageLen = 10, pageNumber = 1 } = pageInfo;
+  const { pageLen = 6, pageNumber = 1 } = pageInfo;
   const { searchFilter, searchKeyword, setSearchFilter, setSearchKeyword } =
     useSearchKeyword();
 
@@ -32,11 +32,10 @@ const CardList = ({ items = [], pageInfo = {}, onChangePage }: ICardList) => {
 
   useEffect(() => {
     onChangePage && onChangePage(cursor);
-  }, [onChangePage, cursor, pageNumber]);
+  }, [onChangePage, cursor]);
 
   useEffect(() => {
     let _pageNumber = pageNumber - 1;
-    console.log(pageNumber);
     setCursor(_pageNumber);
   }, [pageNumber]);
   return (
