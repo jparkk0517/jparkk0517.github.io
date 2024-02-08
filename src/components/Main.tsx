@@ -10,7 +10,6 @@ const Main = ({ children }: { children?: ReactNode }) => {
     if (!mainRef.current) return;
     mainRef.current.scroll({
       top: 0,
-      behavior: 'smooth',
     });
   }, [router.query]);
 

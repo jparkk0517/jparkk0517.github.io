@@ -21,7 +21,7 @@ const renderer = new marked.Renderer();
 
 renderer.code = function (code: string) {
   return `
-    <div class="mockup-code border bg-[#f6f8fa]" style="width:90%;margin:auto;margin-bottom:20px;">
+    <div class="mockup-code text-black border bg-[#f6f8fa]" style="width:90%;margin:auto;margin-bottom:20px;">
       <pre style="margin-bottom:0;padding:0;">
       <code>\n${marked.parseInline(code)}</code>
       </pre>
