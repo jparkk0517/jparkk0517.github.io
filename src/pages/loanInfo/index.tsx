@@ -60,8 +60,8 @@ export default function LoanInfo() {
   }, 500);
 
   const monthlyBalanceChange = [
-    (fixedInfo.firstMoney * fixedInfo.avgAnnualReturn -
-      fixedInfo.monthlyRentDeposit) /
+    ((fixedInfo.firstMoney - fixedInfo.monthlyRentDeposit) *
+      fixedInfo.avgAnnualReturn) /
       12 +
       fixedInfo.income -
       fixedInfo.outcome,
@@ -321,8 +321,8 @@ export default function LoanInfo() {
           {
             liveEnv: '현금 흐름에 따른 월별 수익',
             monthlyRentCharge:
-              (fixedInfo.firstMoney * fixedInfo.avgAnnualReturn -
-                fixedInfo.monthlyRentDeposit) /
+              ((fixedInfo.firstMoney - fixedInfo.monthlyRentDeposit) *
+                fixedInfo.avgAnnualReturn) /
               12,
             jeonseLoanAmount: 0,
             buyLoanAmount: 0,
