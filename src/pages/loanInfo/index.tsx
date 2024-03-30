@@ -57,7 +57,7 @@ export default function LoanInfo() {
       jeonseLoanAmount: props[7],
       buyLoanAmount: props[8],
     });
-  }, 500);
+  }, 800);
 
   const monthlyBalanceChange = [
     ((fixedInfo.firstMoney - fixedInfo.monthlyRentDeposit) *
@@ -201,7 +201,7 @@ export default function LoanInfo() {
                   <input
                     ref={(element) => {
                       if (!element) return;
-                      inputRefs.current[5] = element;
+                      inputRefs.current[6] = element;
                     }}
                     defaultValue={`${record.monthlyRentDeposit.toLocaleString()}`}
                     className="input max-w-[100px] text-right text-black focus:outline-none"
@@ -221,7 +221,7 @@ export default function LoanInfo() {
                   <input
                     ref={(element) => {
                       if (!element) return;
-                      inputRefs.current[6] = element;
+                      inputRefs.current[7] = element;
                     }}
                     defaultValue={`${record.jeonseLoanAmount.toLocaleString()}`}
                     className="input max-w-[100px] text-right text-black focus:outline-none"
@@ -241,7 +241,7 @@ export default function LoanInfo() {
                   <input
                     ref={(element) => {
                       if (!element) return;
-                      inputRefs.current[7] = element;
+                      inputRefs.current[8] = element;
                     }}
                     defaultValue={`${record.buyLoanAmount.toLocaleString()}`}
                     className="input max-w-[100px] text-right text-black focus:outline-none"

@@ -22,7 +22,7 @@ const initialState = {
   loanRate: 0.04,
   avgAnnualReturn: 0.04,
   firstMoney: 220000000,
-  monthlyRentCharge: 1200000,
+  monthlyRentCharge: 1400000,
   monthlyRentDeposit: 50000000,
   jeonseLoanAmount: 150000000,
   buyLoanAmount: 450000000,
