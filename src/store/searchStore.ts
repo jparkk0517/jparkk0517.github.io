@@ -21,5 +21,4 @@ const useSearchKeyword = create<ISearchKeyword>((set) => ({
   },
 }));
 
-
 export default useSearchKeyword;

@@ -14,13 +14,13 @@ export function getAllPosts() {
     .map((postId) => getPostById(postId))
     .sort(
       ({ meta: { date: date1 } }, { meta: { date: date2 } }) =>
-        new Date(date2).getTime() - new Date(date1).getTime()
+        new Date(date2).getTime() - new Date(date1).getTime(),
     );
 }
 export function getPostById(postId: string) {
   const markdownWithMeta = fs.readFileSync(
     path.join('posts', postId + '.mdx'),
-    'utf-8'
+    'utf-8',
   );
   const { data: meta, content } = matter(markdownWithMeta);
   return {

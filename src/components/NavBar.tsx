@@ -13,19 +13,20 @@ const NavBar = () => {
   } = useSearchKeyword();
 
   return (
-    <div className='navbar bg-base-100 sticky top-0 z-10'>
-      <div className='flex-1'>
+    <div className="navbar sticky top-0 z-10 bg-base-100">
+      <div className="flex-1">
         <a
-          className='btn btn-ghost text-xl'
+          className="btn btn-ghost text-xl"
           onClick={() => {
             router.push('/');
             clearSearchKeyword();
-          }}>
+          }}
+        >
           SunBlog
         </a>
       </div>
-      <div className='flex-none gap-2'>
-        <div className='form-control'>
+      <div className="flex-none gap-2">
+        <div className="form-control">
           <FilterSearch
             onSearch={({ searchKeyword, selectedFilter }) => {
               setSearchKeyword(searchKeyword);

@@ -35,19 +35,19 @@ const CardList = ({ items = [], pageInfo = {}, onChangePage }: ICardList) => {
   }, [onChangePage, cursor]);
 
   useEffect(() => {
-    let _pageNumber = pageNumber - 1;
+    const _pageNumber = pageNumber - 1;
     setCursor(_pageNumber);
   }, [pageNumber]);
   return (
-    <div className=''>
+    <div className="">
       {displayedItems.length === 0 ? (
-        <div className='text-black text-6xl h-[85vh] font-black grid place-content-center'>
+        <div className="grid h-[85vh] place-content-center text-6xl font-black text-black">
           No Data
         </div>
       ) : (
-        <ul className='list-none p-0' style={{ display: 'ruby' }}>
+        <ul className="list-none p-0" style={{ display: 'ruby' }}>
           {displayedItems.map((item, idx) => (
-            <li key={idx.toString()} className='inline-block'>
+            <li key={idx.toString()} className="inline-block">
               <Card
                 {...item}
                 onClickTag={(tag) => {
@@ -64,16 +64,17 @@ const CardList = ({ items = [], pageInfo = {}, onChangePage }: ICardList) => {
           ))}
         </ul>
       )}
-      <div className='flex justify-center mt-4'>
-        <div className='join'>
+      <div className="mt-4 flex justify-center">
+        <div className="join">
           {cursor > 3 && (
             <>
               <button
                 onClick={() => setCursor(0)}
-                className='join-item btn btn-lg'>
+                className="btn join-item btn-lg"
+              >
                 첫페이지
               </button>
-              <span className='mx-2'>...</span>
+              <span className="mx-2">...</span>
             </>
           )}
 
@@ -87,19 +88,21 @@ const CardList = ({ items = [], pageInfo = {}, onChangePage }: ICardList) => {
                 onClick={() => {
                   setCursor(idx);
                 }}
-                className={`join-item btn btn-lg ${
+                className={`btn join-item btn-lg ${
                   idx === cursor ? 'btn-active' : ''
-                }`}>
+                }`}
+              >
                 {idx + 1}
               </button>
             ))}
 
           {cursor < lastPageCount - 4 && (
             <>
-              <span className='mx-2'>...</span>
+              <span className="mx-2">...</span>
               <button
                 onClick={() => setCursor(lastPageCount - 1)}
-                className='join-item btn btn-lg'>
+                className="btn join-item btn-lg"
+              >
                 끝페이지
               </button>
             </>

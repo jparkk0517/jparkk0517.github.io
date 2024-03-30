@@ -2,13 +2,13 @@ import TimeLineCard from '@/components/TimeLineCard';
 
 export default function WhoAmI() {
   return (
-    <ul className='timeline timeline-snap-icon max-md:timeline-compact timeline-vertical pb-20'>
-      <TimeLineCard title='LG CNS 입사' date='2019.01' leftRight='right' />
+    <ul className="timeline timeline-vertical timeline-snap-icon pb-20 max-md:timeline-compact">
+      <TimeLineCard title="LG CNS 입사" date="2019.01" leftRight="right" />
 
       <TimeLineCard
-        date='2020.04 ~ 2021.05'
-        title='LG Uplus MSA 전환'
-        leftRight='left'
+        date="2020.04 ~ 2021.05"
+        title="LG Uplus MSA 전환"
+        leftRight="left"
         description={
           <>
             공통 기능 개발 및 프로젝트 메인 개발
@@ -18,12 +18,12 @@ export default function WhoAmI() {
         }
       />
 
-      <TimeLineCard date='2021.06' title='카카오 입사' leftRight='right' />
+      <TimeLineCard date="2021.06" title="카카오 입사" leftRight="right" />
 
       <TimeLineCard
-        date='2021.09 ~ 2021-12'
-        leftRight='left'
-        title='프론트 배포 서버 Kubernetes 전환'
+        date="2021.09 ~ 2021-12"
+        leftRight="left"
+        title="프론트 배포 서버 Kubernetes 전환"
         description={
           <>
             <p>
@@ -35,25 +35,26 @@ export default function WhoAmI() {
       />
 
       <TimeLineCard
-        date='2021.11 ~ 2022-01'
-        leftRight='right'
+        date="2021.11 ~ 2022-01"
+        leftRight="right"
         title={<>MFA 도입을 위한 공통 컴포넌트 개발</>}
-        description='타 부서에서 MFA에 대한 지식, 정보 없이 NPM library도입만으로 MFA Component를 적용할 수 있도록 하는 라이브러리 개발'
+        description="타 부서에서 MFA에 대한 지식, 정보 없이 NPM library도입만으로 MFA Component를 적용할 수 있도록 하는 라이브러리 개발"
       />
 
       <TimeLineCard
-        date='2022.08'
-        leftRight='left'
+        date="2022.08"
+        leftRight="left"
         title={
           <p>
             if kakao 발표{' '}
             <a
-              href='https://www.youtube.com/watch?v=_SkngG2RR3Q'
+              href="https://www.youtube.com/watch?v=_SkngG2RR3Q"
               style={{
                 color: 'rgb(50, 110, 220)',
                 textDecoration: 'underline',
               }}
-              target='_blank'>
+              target="_blank"
+            >
               (보러가기)
             </a>
           </p>
@@ -69,8 +70,8 @@ export default function WhoAmI() {
       />
 
       <TimeLineCard
-        date='2023.06'
-        leftRight='right'
+        date="2023.06"
+        leftRight="right"
         title={<p>카카오 비즈니스 비즈월렛 프론트 개발</p>}
         description={
           <>
@@ -80,8 +81,8 @@ export default function WhoAmI() {
       />
 
       <TimeLineCard
-        date='2023.08'
-        leftRight='left'
+        date="2023.08"
+        leftRight="left"
         title={<p>비즈월렛 서비스 Module-Federation 적용</p>}
         description={
           <>
@@ -92,18 +93,19 @@ export default function WhoAmI() {
       />
 
       <TimeLineCard
-        date='2024.01'
-        leftRight='right'
+        date="2024.01"
+        leftRight="right"
         title={
           <p>
             패스트 캠퍼스 강의{' '}
             <a
-              href='https://fastcampus.co.kr/dev_online_mfa'
+              href="https://fastcampus.co.kr/dev_online_mfa"
               style={{
                 color: 'rgb(50, 110, 220)',
                 textDecoration: 'underline',
               }}
-              target='_blank'>
+              target="_blank"
+            >
               (강의 상세 페이지)
             </a>
           </p>

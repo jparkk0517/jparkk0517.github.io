@@ -4,7 +4,7 @@ interface IColumn<D> {
   key: string;
   title: string;
   // children?: IColumn<D>[];
-  render?: (value: any, record: D) => ReactNode;
+  render?: (value: unknown, record: D) => ReactNode;
 }
 interface ITable<D = Record<string, number | string>> {
   columns: IColumn<D>[];
@@ -23,8 +23,8 @@ interface ITable<D = Record<string, number | string>> {
 const Table = <D,>({ columns, contents, renderKey, onRowClick }: ITable<D>) => {
   // const headDepth = getHeadDepth(columns);
   return (
-    <div className='overflow-x-auto'>
-      <table className='table border-white'>
+    <div className="overflow-x-auto">
+      <table className="table border-white">
         {/* head */}
         <thead>
           <tr>
@@ -36,11 +36,12 @@ const Table = <D,>({ columns, contents, renderKey, onRowClick }: ITable<D>) => {
         <tbody>
           {contents.map((content) => (
             <tr
-              className='cursor-pointer hover:bg-stone-700'
+              className="cursor-pointer hover:bg-stone-700 hover:text-white"
               key={renderKey(content)}
               onClick={() => {
                 onRowClick && onRowClick(content);
-              }}>
+              }}
+            >
               {columns.map((column) => {
                 const value = content[
                   column.key as keyof typeof content

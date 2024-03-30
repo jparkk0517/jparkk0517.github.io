@@ -14,7 +14,7 @@ const marked = new Marked(
       const language = hljs.getLanguage(lang) ? lang : 'plaintext';
       return hljs.highlight(code, { language }).value;
     },
-  })
+  }),
 );
 
 const renderer = new marked.Renderer();
@@ -45,18 +45,18 @@ export default function Post({
   return (
     <>
       <Head>
-        <meta property='og:type' content='website' />
-        <meta property='og:url' content='https://jparkk0517.github.io' />
-        <meta property='og:title' content={post.meta.title} />
-        <meta property='og:description' content={post.meta.desc} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://jparkk0517.github.io" />
+        <meta property="og:title" content={post.meta.title} />
+        <meta property="og:description" content={post.meta.desc} />
       </Head>
-      <div className='mb-20'>
-        <div className='hero bg-base-300'>
-          <div className='hero-content text-center'>
-            <div className='max-w-md'>
-              <h1 className='text-5xl font-bold'>{post.meta.title}</h1>
-              <p className='my-4'>{post.meta.date}</p>
-              <div className='max-w-[80vw] break-words mb-4'>
+      <div className="mb-20">
+        <div className="hero bg-base-300">
+          <div className="hero-content text-center">
+            <div className="max-w-md">
+              <h1 className="text-5xl font-bold">{post.meta.title}</h1>
+              <p className="my-4">{post.meta.date}</p>
+              <div className="mb-4 max-w-[80vw] break-words">
                 {post.meta.desc}
               </div>
               {post.meta.tags.map((tag) => (
@@ -68,14 +68,15 @@ export default function Post({
             </div>
           </div>
         </div>
-        <div className='divider' />
+        <div className="divider" />
         <div
-          className='markdown-body min-h-[58vh] px-6 max-w-[100vw]'
+          className="min-h-[58vh] max-w-[100vw] bg-white px-6"
           dangerouslySetInnerHTML={{
             __html: marked.parse(post.content, {
               renderer,
             }),
-          }}>
+          }}
+        >
           {/* <div
             dangerouslySetInnerHTML={{
               __html: marked.parse(post.content, {
@@ -84,46 +85,50 @@ export default function Post({
             }}
           /> */}
         </div>
-        <div className='flex justify-between mt-10 max-w-[100vw]'>
+        <div className="mt-10 flex max-w-[100vw] justify-between">
           {
             <button
-              className={`btn btn-8xl md:btn-md gap-2 lg:gap-3 ${
+              className={`btn gap-2 md:btn-md lg:gap-3 ${
                 prev ? '' : 'btn-disabled'
               } w-[48%]`}
               onClick={() => {
                 prev && route.push(MENUS.POST(prev.route));
-              }}>
+              }}
+            >
               <svg
-                className='h-6 w-6 fill-current md:h-8 md:w-8'
-                xmlns='http://www.w3.org/2000/svg'
-                width='24'
-                height='24'
-                viewBox='0 0 24 24'>
-                <path d='M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z'></path>
+                className="size-6 fill-current md:size-8"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path>
               </svg>
-              <span className='w-[70%] overflow-hidden text-xs'>
+              <span className="w-[70%] overflow-hidden text-xs">
                 {prev?.meta.title ?? ''}
               </span>
             </button>
           }
           {
             <button
-              className={`btn btn-8xl md:btn-md gap-2 lg:gap-3 ${
+              className={`btn gap-2 md:btn-md lg:gap-3 ${
                 next ? '' : 'btn-disabled'
               } w-[48%]`}
               onClick={() => {
                 next && route.push(MENUS.POST(next.route));
-              }}>
-              <span className='w-[70%] overflow-hidden  text-xs'>
+              }}
+            >
+              <span className="w-[70%] overflow-hidden  text-xs">
                 {next?.meta.title ?? ''}
               </span>
               <svg
-                className='h-6 w-6 fill-current md:h-8 md:w-8'
-                xmlns='http://www.w3.org/2000/svg'
-                width='24'
-                height='24'
-                viewBox='0 0 24 24'>
-                <path d='M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z'></path>
+                className="size-6 fill-current md:size-8"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
               </svg>
             </button>
           }
@@ -146,7 +151,7 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { postId = '' } = params ?? { postId: '' };
   const postIds = getPostIds();
-  const idx = postIds.findIndex((_postId) => postId === _postId);
+  // const idx = postIds.findIndex((_postId) => postId === _postId);
   let prev = null,
     post = null,
     next = null;

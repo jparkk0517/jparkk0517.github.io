@@ -6,11 +6,11 @@ interface IDropdown {
   items?: Array<ReactNode>;
 }
 
-const Dropdown = ({ trigger, items = [] }: IDropdown) => {
+const Dropdown = ({ trigger }: IDropdown) => {
   return (
-    <div className='dropdown'>
-      <summary className='m-1 btn'>{trigger}</summary>
-      <div className='dropdown-content'>
+    <div className="dropdown">
+      <summary className="btn m-1">{trigger}</summary>
+      <div className="dropdown-content">
         <Menu></Menu>
       </div>
       {/* <ul className='dropdown-content z-[1] menu p-2 shadow bg-base-300 rounded-box w-52'>

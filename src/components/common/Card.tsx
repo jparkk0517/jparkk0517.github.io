@@ -24,16 +24,17 @@ const Card = ({
   tags = [],
 }: ICard) => {
   return (
-    <div className='indicator'>
+    <div className="indicator">
       <div
         onClick={onClick}
-        className='card m-4 hover:scale-105 transform transition-transform duration-300 border border-slate-600 cursor-pointer max-w-[70vw]'>
-        <span className='indicator-item badge badge-neutral right-8'>
+        className="card m-4 max-w-[70vw] cursor-pointer border border-slate-600 transition-transform duration-300 hover:scale-105"
+      >
+        <span className="badge indicator-item badge-neutral right-8">
           {date}
         </span>
 
-        <div className='card-body'>
-          <h2 className='card-title flex-col'>
+        <div className="card-body">
+          <h2 className="card-title flex-col">
             <div>
               {title.split(' ').map((title) => {
                 return (
@@ -43,7 +44,8 @@ const Card = ({
                       emphatic?.title && title.includes(emphatic?.title)
                         ? 'red'
                         : 'blue'
-                    }-500 mr-2`}>
+                    }-500 mr-2`}
+                  >
                     {title}
                   </span>
                 );
@@ -51,13 +53,14 @@ const Card = ({
             </div>
           </h2>
           <div
-            className='text-ellipsis max-w-[50vw] max-h-[10vh] overflow-hidden'
+            className="max-h-[10vh] max-w-[50vw] overflow-hidden text-ellipsis"
             style={{
               display: '-webkit-flex',
-            }}>
+            }}
+          >
             {children}
           </div>
-          <div className='card-actions justify-end'>
+          <div className="card-actions justify-end">
             {tags.map((tag) => (
               <div
                 onClick={(e) => {
@@ -71,7 +74,8 @@ const Card = ({
                     ? 'badge-neutral'
                     : ''
                 }`}
-                key={tag}>
+                key={tag}
+              >
                 {tag}
               </div>
             ))}

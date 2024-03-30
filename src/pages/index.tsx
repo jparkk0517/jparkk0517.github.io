@@ -1,11 +1,10 @@
-import fs from 'fs';
-import path from 'path';
+// import fs from 'fs';
+// import path from 'path';
 import CardList from '@/components/common/CardList';
 import { useRouter } from 'next/router';
 import useSearchKeyword from '@/store/searchStore';
 import { MENUS } from '@/common/constants';
 import { getAllPosts } from '@/common/utils';
-import { useEffect } from 'react';
 
 function postFilter(searchFilter: 'tag' | 'title', searchKeyword: string) {
   return (post: IPost) => {
@@ -15,7 +14,7 @@ function postFilter(searchFilter: 'tag' | 'title', searchKeyword: string) {
         .map((tag) => tag.toLowerCase())
         .reduce(
           (prev, _tag) => prev || _tag.includes(searchKeyword.toLowerCase()),
-          false
+          false,
         ),
       title: post.meta.title
         .toLowerCase()
@@ -26,7 +25,7 @@ function postFilter(searchFilter: 'tag' | 'title', searchKeyword: string) {
 
 export default function Home({ posts }: IPostsProps) {
   const { searchKeyword, searchFilter } = useSearchKeyword(
-    ({ searchFilter, searchKeyword }) => ({ searchFilter, searchKeyword })
+    ({ searchFilter, searchKeyword }) => ({ searchFilter, searchKeyword }),
   );
   const router = useRouter();
   const filter = postFilter(searchFilter, searchKeyword);
@@ -49,7 +48,7 @@ export default function Home({ posts }: IPostsProps) {
 }
 
 export const getStaticProps = async () => {
-  const files = fs.readdirSync(path.join('posts'));
+  // const files = fs.readdirSync(path.join('posts'));
 
   const posts: IPost[] = getAllPosts();
   return {
