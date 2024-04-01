@@ -2,8 +2,8 @@ import Table from '@/components/common/Table';
 import Toggle from '@/components/common/Toggle';
 // import IncomeChangeChart from '@/components/ui/IncomeChangeChart';
 import useLoanInfoStore from '@/store/loanInfoStore';
-import { debounce } from 'lodash-es';
-import { useRef, useState } from 'react';
+// import { debounce } from 'lodash-es';
+import { useState } from 'react';
 import { useStore } from 'zustand';
 import dayjs from 'dayjs';
 import Calendar from '@/components/common/Calendar';
@@ -28,19 +28,25 @@ import LoanInfoModifyCell from '@/components/ui/LoanInfoModifyCell';
 export default function LoanInfo() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [kakaoInterest, setKakaoInterest] = useState<boolean>(true);
-  const { addLoanInfo, deleteLoanInfo, loanList, fixedInfo, setFixedInfo } =
-    useStore(useLoanInfoStore);
-  const inputRefs = useRef<HTMLInputElement[]>([]);
+  const {
+    addLoanInfo,
+    deleteLoanInfo,
+    loanList,
+    fixedInfo,
+    setFixedInfo,
+    changeLoanInfo,
+  } = useStore(useLoanInfoStore);
+  // const inputRefs = useRef<HTMLInputElement[]>([]);
 
-  const handleChange = debounce(() => {
-    const props = inputRefs.current.map((_number) =>
-      Number(_number.value.replace(/[^0-9.]/g, '')),
-    );
-    setFixedInfo({
-      income: props[0],
-      outcome: props[1],
-    });
-  }, 800);
+  // const handleChange = debounce(() => {
+  //   const props = inputRefs.current.map((_number) =>
+  //     Number(_number.value.replace(/[^0-9.]/g, '')),
+  //   );
+  //   setFixedInfo({
+  //     income: props[0],
+  //     outcome: props[1],
+  //   });
+  // }, 800);
 
   return (
     <>
@@ -59,10 +65,16 @@ export default function LoanInfo() {
           {
             title: '수입',
             key: 'income',
-            render(_, record) {
+            render() {
               return (
                 <>
-                  <input
+                  <LoanInfoModifyCell
+                    value={fixedInfo.income}
+                    onChange={(value) =>
+                      setFixedInfo({ ...fixedInfo, income: value })
+                    }
+                  />
+                  {/* <input
                     ref={(element) => {
                       if (!element) return;
                       inputRefs.current[0] = element;
@@ -70,7 +82,7 @@ export default function LoanInfo() {
                     defaultValue={`${record.income.toLocaleString()}`}
                     className="input max-w-[400px] text-right text-black focus:outline-none"
                     onChange={handleChange}
-                  />
+                  /> */}
                   원
                 </>
               );
@@ -82,7 +94,13 @@ export default function LoanInfo() {
             render(_, record) {
               return (
                 <>
-                  <input
+                  <LoanInfoModifyCell
+                    value={fixedInfo.outcome}
+                    onChange={(value) =>
+                      setFixedInfo({ ...fixedInfo, outcome: value })
+                    }
+                  />
+                  {/* <input
                     ref={(element) => {
                       if (!element) return;
                       inputRefs.current[1] = element;
@@ -90,8 +108,8 @@ export default function LoanInfo() {
                     defaultValue={`${record.outcome.toLocaleString()}`}
                     className="input max-w-[400px] text-right text-black focus:outline-none"
                     onChange={handleChange}
-                  />
-                  원
+                  /> */}
+                  원({(record.outcome / record.income) * 100}%)
                 </>
               );
             },
@@ -119,9 +137,10 @@ export default function LoanInfo() {
             render(value, record) {
               return (
                 <LoanInfoModifyCell
-                  propName={'monthlyCharge'}
-                  id={record.id}
                   value={value as number}
+                  onChange={(value) =>
+                    changeLoanInfo(record.id, 'monthlyCharge', value)
+                  }
                 />
               );
             },
@@ -132,9 +151,10 @@ export default function LoanInfo() {
             render(value, record) {
               return (
                 <LoanInfoModifyCell
-                  propName={'loanAmount'}
-                  id={record.id}
                   value={value as number}
+                  onChange={(value) =>
+                    changeLoanInfo(record.id, 'loanAmount', value)
+                  }
                 />
               );
             },
@@ -145,10 +165,24 @@ export default function LoanInfo() {
             render(value, record) {
               return (
                 <LoanInfoModifyCell
-                  propName={'loanInterestRate'}
-                  id={record.id}
                   value={value as number}
+                  onChange={(value) =>
+                    changeLoanInfo(record.id, 'loanInterestRate', value)
+                  }
                 />
+              );
+            },
+          },
+          {
+            title: '원리금',
+            key: 'principalAndInterest',
+            render(_, record) {
+              return (
+                ((record.loanAmount * record.loanInterestRate) / 12 +
+                  (record.repaymentOfPrincipal
+                    ? record.loanAmount / (12 * 40)
+                    : 0)) *
+                -1
               );
             },
           },
@@ -158,9 +192,10 @@ export default function LoanInfo() {
             render(value, record) {
               return (
                 <LoanInfoModifyCell
-                  propName={'firstMoney'}
-                  id={record.id}
                   value={value as number}
+                  onChange={(value) =>
+                    changeLoanInfo(record.id, 'firstMoney', value)
+                  }
                 />
               );
             },
@@ -171,11 +206,19 @@ export default function LoanInfo() {
             render(value, record) {
               return (
                 <LoanInfoModifyCell
-                  propName={'avgAnnualReturn'}
-                  id={record.id}
                   value={value as number}
+                  onChange={(value) =>
+                    changeLoanInfo(record.id, 'avgAnnualReturn', value)
+                  }
                 />
               );
+            },
+          },
+          {
+            title: '월간 자본 소득',
+            key: 'avgAnnualReturn',
+            render(_, record) {
+              return (record.firstMoney * record.avgAnnualReturn) / 12;
             },
           },
           {
@@ -191,26 +234,14 @@ export default function LoanInfo() {
                 (record.repaymentOfPrincipal
                   ? record.loanAmount / (12 * 40)
                   : 0);
-              console.log(
-                monthlyChange.toLocaleString(),
-                incomeFromMoney.toLocaleString(),
-                outcomePerMontylyLoan.toLocaleString(),
-              );
-              return (
-                <>
-                  {Number(
-                    (
-                      incomeFromMoney +
-                      monthlyChange -
-                      outcomePerMontylyLoan +
-                      (kakaoInterest && record.loanAmount !== 0
-                        ? ((record.loanInterestRate - 0.02) * 150000000) / 12
-                        : 0)
-                    ).toFixed(0),
-                  ).toLocaleString()}
-                  원
-                </>
-              );
+              const res =
+                incomeFromMoney +
+                monthlyChange -
+                outcomePerMontylyLoan +
+                (kakaoInterest && record.loanAmount !== 0
+                  ? ((record.loanInterestRate - 0.02) * 150000000) / 12
+                  : 0);
+              return <>{res}원</>;
             },
           },
           {

@@ -1,11 +1,16 @@
 import dayjs from 'dayjs';
 import { useEffect, useRef, useState } from 'react';
+import Button from './Button';
 
 interface ICalendar {
   startDate?: dayjs.Dayjs;
+  onChange?: (selectedDate: dayjs.Dayjs) => void;
 }
 
-export default function Calendar({ startDate = dayjs() }: ICalendar) {
+export default function Calendar({
+  startDate = dayjs(),
+  onChange = () => {},
+}: ICalendar) {
   const [open, setOpen] = useState(false);
   const [cursor, setCursor] = useState(startDate);
   const [selectedDate, setSelectedDate] = useState(startDate);
@@ -14,11 +19,15 @@ export default function Calendar({ startDate = dayjs() }: ICalendar) {
 
   const toggleCalendar = () => setOpen(!open);
 
-  const handleDateSelect = (year: number, month: number, day: number) => {
+  const handleChangeDate = (year: number, month: number, day: number) => {
     const newSelectedDate = dayjs(new Date(year, month, day));
     setCursor(newSelectedDate);
     setSelectedDate(newSelectedDate);
     // setOpen(false); // 날짜 선택 후 달력 닫기
+  };
+  const handleSelecteDate = () => {
+    onChange(selectedDate);
+    setOpen(false);
   };
 
   const handleChangeMonth = (monthOffset: number) => {
@@ -29,8 +38,11 @@ export default function Calendar({ startDate = dayjs() }: ICalendar) {
     setCursor(startDate);
   }, [startDate]);
   useEffect(() => {
-    if (!open) setCursor(selectedDate);
-  }, [open, selectedDate]);
+    if (!open) return setCursor(selectedDate);
+  }, [open, selectedDate, startDate]);
+  useEffect(() => {
+    open && setSelectedDate(startDate);
+  }, [open, startDate]);
 
   const startDay = cursor.startOf('month').day();
   const daysInMonth = cursor.daysInMonth();
@@ -61,14 +73,14 @@ export default function Calendar({ startDate = dayjs() }: ICalendar) {
       <input
         ref={inputRef}
         type="text"
-        value={selectedDate.format('YYYY-MM-DD')}
+        value={startDate.format('YYYY-MM-DD')}
         readOnly
         onClick={toggleCalendar}
-        className="input"
+        className="input cursor-pointer outline-transparent"
       />
       {open && (
         <div className="fixed z-50 size-full">
-          <div className="container mt-5 h-[30px] w-[350px]" ref={calendarRef}>
+          <div className="container mt-5 max-w-[400px]" ref={calendarRef}>
             <div className="rounded-lg bg-white p-4 shadow">
               <div className="mb-4 flex items-center justify-between">
                 <button
@@ -98,11 +110,19 @@ export default function Calendar({ startDate = dayjs() }: ICalendar) {
                   <div
                     key={day}
                     className={`cursor-pointer py-2 text-center ${selectedDate.date() === day && selectedDate.month() === month ? 'bg-blue-500 text-white' : 'bg-transparent'}`}
-                    onClick={() => handleDateSelect(year, month, day)}
+                    onClick={() => handleChangeDate(year, month, day)}
                   >
                     {day}
                   </div>
                 ))}
+              </div>
+              <div className=" text-right">
+                <Button
+                  disabled={selectedDate.isSame(startDate)}
+                  onClick={handleSelecteDate}
+                >
+                  적용
+                </Button>
               </div>
             </div>
           </div>
