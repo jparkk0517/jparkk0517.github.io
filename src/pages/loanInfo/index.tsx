@@ -174,13 +174,34 @@ export default function LoanInfo() {
             },
           },
           {
+            title: '상환기간',
+            key: 'repaymentPeriod',
+            render(_, record) {
+              return (
+                <>
+                  <LoanInfoModifyCell
+                    value={record.repaymentPeriod as number}
+                    onChange={(repaymentPeriod) =>
+                      changeLoanInfo(
+                        record.id,
+                        'repaymentPeriod',
+                        repaymentPeriod,
+                      )
+                    }
+                  />
+                  개월
+                </>
+              );
+            },
+          },
+          {
             title: '원리금',
             key: 'principalAndInterest',
             render(_, record) {
               return (
                 ((record.loanAmount * record.loanInterestRate) / 12 +
                   (record.repaymentOfPrincipal
-                    ? record.loanAmount / (12 * 40)
+                    ? record.loanAmount / record.repaymentPeriod
                     : 0)) *
                 -1
               );
@@ -232,7 +253,7 @@ export default function LoanInfo() {
               const outcomePerMontylyLoan =
                 (record.loanAmount * record.loanInterestRate) / 12 +
                 (record.repaymentOfPrincipal
-                  ? record.loanAmount / (12 * 40)
+                  ? record.loanAmount / record.repaymentPeriod
                   : 0);
               const res =
                 incomeFromMoney +

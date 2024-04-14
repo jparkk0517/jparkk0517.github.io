@@ -6,6 +6,7 @@ export interface IFixedInfo {
 export interface ILoanInfo {
   id: string;
   title: string;
+  repaymentPeriod: number;
   monthlyCharge: number;
   loanAmount: number;
   loanInterestRate: number;
@@ -41,6 +42,7 @@ const useLoanInfoStore = create<ILoanStore>((set) => ({
       title: '월세',
       monthlyCharge: 1400000,
       loanAmount: 0,
+      repaymentPeriod: 12,
       loanInterestRate: 0.04,
       avgAnnualReturn: 0.036,
       firstMoney: 170000000,
@@ -50,6 +52,7 @@ const useLoanInfoStore = create<ILoanStore>((set) => ({
       id: '1',
       title: '전세',
       monthlyCharge: 0,
+      repaymentPeriod: 12,
       loanAmount: 150000000,
       loanInterestRate: 0.04,
       avgAnnualReturn: 0.036,
@@ -60,6 +63,7 @@ const useLoanInfoStore = create<ILoanStore>((set) => ({
       id: '2',
       title: '매매',
       monthlyCharge: 0,
+      repaymentPeriod: 360,
       loanAmount: 450000000,
       loanInterestRate: 0.04,
       avgAnnualReturn: 0.036,
@@ -80,7 +84,6 @@ const useLoanInfoStore = create<ILoanStore>((set) => ({
     }));
   },
   changeLoanInfo(id, key, value) {
-    console.log(id, key, value);
     set((state) => ({
       ...state,
       loanList: state.loanList.map((e) =>

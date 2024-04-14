@@ -20,6 +20,7 @@ export default function LoanInfoInputPopup({
   const loanAmountRef = useRef<HTMLInputElement>(null);
   const loanInterestRateRef = useRef<HTMLInputElement>(null);
   const firstMoneyRef = useRef<HTMLInputElement>(null);
+  const repaymentPeriodRef = useRef<HTMLInputElement>(null);
   const [repaymentOfPrincipal, setRepaymentOfPrincipal] = useState(false);
   const handleConfirm = () => {
     if (
@@ -29,7 +30,8 @@ export default function LoanInfoInputPopup({
       !avgAnnualReturnRef.current ||
       !loanAmountRef.current ||
       !loanInterestRateRef.current ||
-      !firstMoneyRef.current
+      !firstMoneyRef.current ||
+      !repaymentPeriodRef.current
     )
       return;
     onConfirm({
@@ -46,6 +48,9 @@ export default function LoanInfoInputPopup({
       loanAmount: Number(loanAmountRef.current.value.replaceAll(/[^0-9]/g, '')),
       firstMoney: Number(firstMoneyRef.current.value.replaceAll(/[^0-9]/g, '')),
       repaymentOfPrincipal,
+      repaymentPeriod: Number(
+        repaymentPeriodRef.current.value.replaceAll(/[^0-9]/g, ''),
+      ),
     });
     onClose();
   };
@@ -103,6 +108,15 @@ export default function LoanInfoInputPopup({
           ref={loanInterestRateRef}
           defaultValue={0.04}
         />
+      </p>
+      <p>
+        상환기간 :{' '}
+        <input
+          className="input max-w-[400px] rounded border border-gray-300 text-right text-black focus:outline-none"
+          ref={repaymentPeriodRef}
+          defaultValue={360}
+        />
+        개월
       </p>
       <div className="w-[200px] text-left">
         <Toggle
