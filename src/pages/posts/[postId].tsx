@@ -18,7 +18,10 @@ const marked = new Marked(
 );
 
 const renderer = new marked.Renderer();
-
+renderer.heading = function (text, level) {
+  const fontSize = `text-${6 - Math.floor(level / 6) - 1}xl`;
+  return `<h${level} class="border-b-2 font-bold ${fontSize} mb-5 text-gray-500">${text}</h${level}>`;
+};
 renderer.code = function (code: string) {
   return `
     <div class="mockup-code text-black border bg-[#f6f8fa]" style="width:90%;margin:auto;margin-bottom:20px;">
@@ -70,21 +73,13 @@ export default function Post({
         </div>
         <div className="divider" />
         <div
-          className="min-h-[58vh] max-w-[100vw] bg-white px-6"
+          className="min-h-[58vh] max-w-[100vw] whitespace-pre-wrap bg-white px-6"
           dangerouslySetInnerHTML={{
             __html: marked.parse(post.content, {
               renderer,
             }),
           }}
-        >
-          {/* <div
-            dangerouslySetInnerHTML={{
-              __html: marked.parse(post.content, {
-                renderer,
-              }),
-            }}
-          /> */}
-        </div>
+        />
         <div className="mt-10 flex max-w-[100vw] justify-between">
           {
             <button
