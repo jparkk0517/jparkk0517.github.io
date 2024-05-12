@@ -11,19 +11,36 @@ import LoanInfoInputPopup from '@/components/ui/LoanInfoInputPopup';
 import Button from '@/components/common/Button';
 import LoanInfoModifyCell from '@/components/ui/LoanInfoModifyCell';
 
-// function generateMonthlyDates(start: string, end: string) {
-//   let startDate = dayjs(start);
-//   const endDate = dayjs(end);
+function calculateMonthlyPayment(
+  loanAmount: number,
+  loanTerm: number,
+  interestRate: number,
+  includePrincipal: boolean,
+) {
+  // 대출 이자율을 연이율에서 월 이자율로 변환
+  const monthlyInterestRate = interestRate / 12;
 
-//   const datesArray = [];
+  // 상환 기간(월)에 대한 월별 이자율
+  const monthlyTerm = loanTerm;
 
-//   while (startDate.isBefore(endDate) || startDate.isSame(endDate, 'day')) {
-//     datesArray.push(startDate.format('YYYY-MM-DD'));
-//     startDate = startDate.add(1, 'month');
-//   }
+  // 월별 이자액 계산
+  const monthlyInterestPayment = loanAmount * monthlyInterestRate;
 
-//   return datesArray;
-// }
+  // 월별 원금상환액 계산
+  const totalMonthlyPayment =
+    (loanAmount * monthlyInterestRate) /
+    (1 - Math.pow(1 + monthlyInterestRate, -monthlyTerm));
+
+  // 원리금 또는 이자만 반환
+  let monthlyPayment;
+  if (includePrincipal) {
+    monthlyPayment = totalMonthlyPayment;
+  } else {
+    monthlyPayment = monthlyInterestPayment;
+  }
+
+  return monthlyPayment;
+}
 
 export default function LoanInfo() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,18 +53,6 @@ export default function LoanInfo() {
     setFixedInfo,
     changeLoanInfo,
   } = useStore(useLoanInfoStore);
-  // const inputRefs = useRef<HTMLInputElement[]>([]);
-
-  // const handleChange = debounce(() => {
-  //   const props = inputRefs.current.map((_number) =>
-  //     Number(_number.value.replace(/[^0-9.]/g, '')),
-  //   );
-  //   setFixedInfo({
-  //     income: props[0],
-  //     outcome: props[1],
-  //   });
-  // }, 800);
-
   return (
     <>
       {isModalOpen && (
@@ -74,15 +79,6 @@ export default function LoanInfo() {
                       setFixedInfo({ ...fixedInfo, income: value })
                     }
                   />
-                  {/* <input
-                    ref={(element) => {
-                      if (!element) return;
-                      inputRefs.current[0] = element;
-                    }}
-                    defaultValue={`${record.income.toLocaleString()}`}
-                    className="input max-w-[400px] text-right text-black focus:outline-none"
-                    onChange={handleChange}
-                  /> */}
                   원
                 </>
               );
@@ -100,15 +96,6 @@ export default function LoanInfo() {
                       setFixedInfo({ ...fixedInfo, outcome: value })
                     }
                   />
-                  {/* <input
-                    ref={(element) => {
-                      if (!element) return;
-                      inputRefs.current[1] = element;
-                    }}
-                    defaultValue={`${record.outcome.toLocaleString()}`}
-                    className="input max-w-[400px] text-right text-black focus:outline-none"
-                    onChange={handleChange}
-                  /> */}
                   원({(record.outcome / record.income) * 100}%)
                 </>
               );
@@ -199,12 +186,13 @@ export default function LoanInfo() {
             key: 'principalAndInterest',
             render(_, record) {
               return (
-                ((record.loanAmount * record.loanInterestRate) / 12 +
-                  (record.repaymentOfPrincipal
-                    ? record.loanAmount / record.repaymentPeriod
-                    : 0)) *
-                -1
-              );
+                calculateMonthlyPayment(
+                  record.loanAmount,
+                  record.repaymentPeriod,
+                  record.loanInterestRate,
+                  record.repaymentOfPrincipal,
+                ) * -1
+              ).toLocaleString('ko-kr', { maximumFractionDigits: 0 });
             },
           },
           {
@@ -239,7 +227,10 @@ export default function LoanInfo() {
             title: '월간 자본 소득',
             key: 'avgAnnualReturn',
             render(_, record) {
-              return (record.firstMoney * record.avgAnnualReturn) / 12;
+              return (
+                (record.firstMoney * record.avgAnnualReturn) /
+                12
+              ).toLocaleString('ko-kr', { maximumFractionDigits: 0 });
             },
           },
           {
@@ -250,11 +241,12 @@ export default function LoanInfo() {
                 fixedInfo.income - fixedInfo.outcome - record.monthlyCharge;
               const incomeFromMoney =
                 (record.firstMoney * record.avgAnnualReturn) / 12;
-              const outcomePerMontylyLoan =
-                (record.loanAmount * record.loanInterestRate) / 12 +
-                (record.repaymentOfPrincipal
-                  ? record.loanAmount / record.repaymentPeriod
-                  : 0);
+              const outcomePerMontylyLoan = calculateMonthlyPayment(
+                record.loanAmount,
+                record.repaymentPeriod,
+                record.loanInterestRate,
+                record.repaymentOfPrincipal,
+              );
               const res =
                 incomeFromMoney +
                 monthlyChange -
@@ -262,7 +254,11 @@ export default function LoanInfo() {
                 (kakaoInterest && record.loanAmount !== 0
                   ? ((record.loanInterestRate - 0.02) * 150000000) / 12
                   : 0);
-              return <>{res}원</>;
+              return (
+                <>
+                  {res.toLocaleString('ko-kr', { maximumFractionDigits: 0 })}원
+                </>
+              );
             },
           },
           {

@@ -2,6 +2,18 @@ import fs from 'fs';
 import matter from 'gray-matter';
 import path from 'path';
 
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkRehype from 'remark-rehype';
+
+export const markdownProcessor = unified()
+  .use(remarkParse)
+  .use(remarkMath)
+  .use(remarkRehype)
+  .use(rehypeKatex);
+
 export function getPostIds() {
   const files = fs
     .readdirSync(path.join('posts'))

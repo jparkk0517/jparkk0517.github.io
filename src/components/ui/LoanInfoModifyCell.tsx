@@ -11,9 +11,9 @@ export default function LoanInfoModifyCell({
   onChange,
 }: ILoanInfoModifyCell) {
   const [isChangeAble, setIsChangeAble] = useState(false);
-  const [num, setNum] = useState<string>(value?.toString() ?? '');
+  const [num, setNum] = useState(value);
   useEffect(() => {
-    setNum(value?.toString() ?? '');
+    setNum(value);
   }, [value]);
   return (
     <>
@@ -23,13 +23,13 @@ export default function LoanInfoModifyCell({
             className="input max-w-[400px] text-right text-black focus:outline-none"
             value={num}
             onChange={(e) => {
-              setNum(e.target.value);
+              setNum(Number(e.target.value));
             }}
           />
           <div className="flex">
             <Button
               onClick={() => {
-                onChange(Number(num.replaceAll(/[^0-9.]/g, '')));
+                onChange(num);
                 // setNum(value);
                 setIsChangeAble(false);
               }}
@@ -38,7 +38,7 @@ export default function LoanInfoModifyCell({
             </Button>
             <Button
               onClick={() => {
-                setNum(value.toString());
+                setNum(value);
                 setIsChangeAble(false);
               }}
             >
@@ -48,7 +48,7 @@ export default function LoanInfoModifyCell({
         </>
       ) : (
         <div className="flex">
-          {num}
+          {num.toLocaleString()}
           <svg
             onClick={() => setIsChangeAble(true)}
             xmlns="http://www.w3.org/2000/svg"
